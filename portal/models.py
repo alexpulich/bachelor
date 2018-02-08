@@ -67,14 +67,14 @@ class ClimbingKind(models.Model):
 
 class ClimbingWall(TimeStampedModel):
     name = models.CharField(max_length=255)
-    logo = models.ImageField(null=True)
-    description = models.TextField(null=True)
+    logo = models.ImageField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     kinds = models.ManyToManyField(ClimbingKind)
-    address = models.CharField(max_length=255, null=True)
-    website = models.URLField(null=True)
-    contacts = models.TextField(null=True)
-    networks = models.ManyToManyField(SocialNetworkLink)
-    open_time = models.CharField(max_length=255, null=True)
+    address = models.CharField(max_length=255, null=True, blank=True)
+    website = models.URLField(null=True, blank=True)
+    contacts = models.TextField(null=True, blank=True)
+    networks = models.ManyToManyField(SocialNetworkLink, null=True, blank=True)
+    open_time = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return str(self.name)
@@ -113,7 +113,7 @@ class Route(TimeStampedModel):
 
 
 class RoutePicture(TimeStampedModel):
-    image = models.ImageField(null=True)
+    image = models.ImageField(null=True, upload_to='media/climbingwalls/')
     route = models.ForeignKey(
         Route,
         related_name='pictures',
