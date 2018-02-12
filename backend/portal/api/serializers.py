@@ -28,6 +28,11 @@ class AuthorSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = ('id', 'first_name', 'last_name')
 
+class ClimbingWallOwnerSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ClimbingWall
+        fields = ('id', 'name')
+
 
 class RouteSerializer(serializers.HyperlinkedModelSerializer):
     # TODO: temporary read_only
@@ -37,6 +42,14 @@ class RouteSerializer(serializers.HyperlinkedModelSerializer):
         model = Route
         fields = ('id', 'name', 'author', 'color', 'rank', 'climbing_wall', 'grade', 'pictures', 'active')
 
+
+class RouteRatingSerializer(serializers.HyperlinkedModelSerializer):
+    # TODO: temporary read_only
+    author = AuthorSerializer()
+    climbing_wall = ClimbingWallOwnerSerializer()
+    class Meta:
+        model = Route
+        fields = ('id', 'name', 'author', 'color', 'rank', 'climbing_wall', 'grade')
 
 class ClimbingWallSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
