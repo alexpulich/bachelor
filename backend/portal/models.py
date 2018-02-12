@@ -143,3 +143,13 @@ class TrainingDayRoute(TimeStampedModel):
 
     def __str__(self):
         return str(self.route)
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    photo = models.ImageField(blank=True, null=True, upload_to='media/users/')
+    networks = models.ManyToManyField(SocialNetworkLink, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return ' '.join((self.user.first_name, self.user.last_name))
