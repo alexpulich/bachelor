@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Index from '@/components/Index'
 import Climbingwall from '@/components/Climbingwall'
 import Route from '@/components/Route'
+import Routes from '@/components/Routes'
 import Login from '@/components/Login'
 import Traininglog from '@/components/Traininglog'
 
@@ -21,7 +22,12 @@ export default new Router({
       component: Climbingwall
     },
     {
-      path: '/route/:id',
+      path: '/routes/',
+      name: 'Routes',
+      component: Routes
+    },
+    {
+      path: '/routes/:id',
       name: 'Route',
       component: Route
     },

@@ -6,6 +6,7 @@
       <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
           <b-nav-item :to="{ name: 'Index' }">Скалодромы</b-nav-item>
+          <b-nav-item :to="{ name: 'Routes' }">Трассы</b-nav-item>
           <b-nav-item :to="{ name: 'Login' }">Войти</b-nav-item>
         </b-navbar-nav>
       </b-collapse>

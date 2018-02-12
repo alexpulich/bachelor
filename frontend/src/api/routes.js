@@ -7,6 +7,12 @@ export const Routes = {
     })
   },
 
+  rating () {
+    return HTTP.get('/routes/rating/').then(response => {
+      return response.data
+    })
+  },
+
   item (routeId) {
     return HTTP.get('/routes/' + routeId).then(response => {
       return response.data
