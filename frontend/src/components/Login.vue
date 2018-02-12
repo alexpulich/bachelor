@@ -2,57 +2,55 @@
   <form class="form-signin" @submit.prevent="onSubmit">
     <h1 class="h3 mb-3 font-weight-normal">Авторизация</h1>
     <label for="inputEmail" class="sr-only">E-mail</label>
-    <input type="email" id="inputEmail" class="form-control" :class="{'is-invalid': form.errors.email }" placeholder="E-mail" required="" autofocus="" v-model="form.data.email">
-    <template v-if="form.errors.email" >
-      <div v-for="error in form.errors.email" class="invalid-feedback">{{ error }}</div>
-    </template>
+    <input type="email" id="inputEmail" class="form-control"
+           placeholder="E-mail" required="" autofocus="" v-model="form.email">
+    <!--<template v-if="errors.email">-->
+      <!--<div v-for="error in errors.email" class="invalid-feedback">{{ error }}</div>-->
+    <!--</template>-->
     <label for="inputPassword" class="sr-only">Пароль</label>
-    <input type="password" id="inputPassword" class="form-control" :class="{'is-invalid': form.errors.password }" placeholder="Пароль" required="" v-model="form.data.password">
-    <template v-if="form.errors.password" >
-      <div v-for="error in form.errors.password" class="invalid-feedback">{{ error }}</div>
-    </template>
-    <template>
-      <div class="alert alert-danger" v-if="form.errors.non_field_errors.length">
-        <ul class="list-unstyled">
-          <li v-for="error in form.errors.non_field_errors">{{ error }}</li>
-        </ul>
-      </div>
-    </template>
+    <input type="password" id="inputPassword" class="form-control"
+           placeholder="Пароль" required="" v-model="form.password">
+    <!--<template v-if="errors.password">-->
+      <!--<div v-for="error in errors.password" class="invalid-feedback">{{ error }}</div>-->
+    <!--</template>-->
+    <!--<template>-->
+      <!--<div class="alert alert-danger" v-if="errors.non_field_errors.length">-->
+        <!--<ul class="list-unstyled">-->
+          <!--<li v-for="error in errors.non_field_errors">{{ error }}</li>-->
+        <!--</ul>-->
+      <!--</div>-->
+    <!--</template>-->
     <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
   </form>
 </template>
 
 <script>
+  import {HTTP} from '../api/common';
+  import {mapGetters} from 'vuex'
+
   export default {
     name: 'Login',
     data() {
       return {
         form: {
-          data: {
-            email: '',
-            password: ''
-          },
-          errors: {
-            email: '',
-            password: '',
-            non_field_errors: ''
-          }
+          email: '',
+          password: ''
         },
       }
     },
+    //TODO сделать вывод ошибок при авторизации
+    computed: mapGetters([['isLoggedIn', 'errors']]),
 
     methods: {
       onSubmit() {
-        window.axios.post('http://localhost:8000/api/v1/rest-auth/login/', this.form.data)
-          .then(response => (console.log(response.data)))
-          .catch(error => (
-            this.form.errors = error.response.data
-          ))
+        this.$store.dispatch("login", this.form).then((response) => {
+        })
       }
     },
-
     created() {
-//      window.axios.get('http://localhost:8000/api/v1/climbingwalls/').then(response => (this.climbingwalls = response.data))
+      if (this.isLoggedIn) {
+        this.$router.push("/")
+      }
     }
   }
 </script>
