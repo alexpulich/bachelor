@@ -1,0 +1,37 @@
+<template>
+  <div id="app">
+    <b-navbar toggleable="md" type="dark" variant="dark">
+      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+      <b-navbar-brand :to="{ name: 'Index'}">Climbing for me</b-navbar-brand>
+      <b-collapse is-nav id="nav_collapse">
+
+        <b-navbar-nav>
+          <b-nav-item href="#">Link</b-nav-item>
+        </b-navbar-nav>
+
+      </b-collapse>
+    </b-navbar>
+    <b-jumbotron header="Найди свой скалодром!"
+                 lead="Эгегей, тут типо дипломная работа, и ниже ты можешь найти скалодромы">
+    </b-jumbotron>
+    <router-view/>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'App',
+  }
+</script>
+
+<style>
+  body {
+    background: url('https://i.pinimg.com/originals/8d/cc/3a/8dcc3af74e7f3fd7cc11ef271f436ef2.jpg') repeat;
+  }
+
+  .jumbotron {
+    color: white;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)), url('https://www.walltopia.com/images/projects/The_Cliffs/TheCliffs_.jpg') no-repeat center -310px;
+    background-size: cover;
+  }
+</style>

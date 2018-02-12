@@ -1,0 +1,43 @@
+{% extends 'portal/base.html' %}
+
+{% block title %} {{ item.name }} {% endblock %}
+
+{% block content %}
+    <div class="container-fluid mt-4" id="app">
+        <div class="row">
+            <div class="col-sm-4">
+                <h3>${ climbing_wall.name }$</h3>
+                <img class="img-fluid img-thumbnail" :src="climbing_wall.logo">
+                <p>${ climbing_wall.name }$</p>
+                <p>${ climbing_wall.description }$</p>
+            </div>
+            <div class="col-sm-8">
+                <dl class="mt-5">
+                    <dt v-if="climbing_wall.website">Сайт:</dt>
+                    <dd v-if="climbing_wall.website">${ climbing_wall.website }$</dd>
+                    <dt v-if="climbing_wall.address">Адрес:</dt>
+                    <dd v-if="climbing_wall.address">${ climbing_wall.address }$</dd>
+                    <dt v-if="climbing_wall.contacts">Контакты:</dt>
+                    <dd v-if="climbing_wall.contacts">${ climbing_wall.contacts }$</dd>
+                    <dt v-if="climbing_wall.open_time">Часы работы:</dt>
+                    <dd v-if="climbing_wall.open_time">${ climbing_wall.open_time }$</dd>
+                    <dt v-if="climbing_wall.description">Адрес:</dt>
+                    <dd v-if="climbing_wall.description">${ climbing_wall.description }$</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            delimiters: ['${', '}$'],
+            data: {
+                climbing_wall: {}
+            },
+            created() {
+                axios.get('/api/v1/climbingwalls/{{ id }}').then(response => this.climbing_wall = response.data);
+            }
+        });
+    </script>
+{% endblock %}
