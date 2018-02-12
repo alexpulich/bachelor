@@ -5,7 +5,9 @@
       heading="Найди свой скалодром"
       content="Эгегей, тут типо дипломная работа, и ниже ты можешь найти скалодромы"
     />
-    <router-view/>
+    <b-container fluid>
+      <router-view/>
+    </b-container>
     <app-footer>Climbingfor.Me &copy; 2018</app-footer>
   </div>
 </template>
