@@ -5,13 +5,13 @@ const state = {
 }
 
 const getters = {
-  climbingwalls: state => state.climbingwalls
+  climbingwalls: state => state.climbingwalls,
 }
 
 const mutations = {
   setClimbingwalls(state, {climbingwalls}) {
     state.climbingwalls = climbingwalls
-  }
+  },
 }
 
 const actions = {
@@ -19,7 +19,7 @@ const actions = {
     Climbingwalls.list().then(climbingwalls => {
       commit('setClimbingwalls', {climbingwalls})
     })
-  }
+  },
 }
 
 export default {
