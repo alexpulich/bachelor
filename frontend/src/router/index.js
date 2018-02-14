@@ -5,6 +5,7 @@ import Climbingwall from '@/components/Climbingwall'
 import Route from '@/components/Route'
 import Routes from '@/components/Routes'
 import Login from '@/components/Login'
+import Registration from '@/components/Registration'
 import Traininglog from '@/components/Traininglog'
 
 Vue.use(Router)
@@ -35,6 +36,11 @@ export default new Router({
       path: '/login/',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/registration/',
+      name: 'Registration',
+      component: Registration
     },
     {
       path: '/traininglog/',

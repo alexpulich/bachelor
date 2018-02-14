@@ -8,11 +8,6 @@ const LOGOUT = "LOGOUT";
 
 const state = {
   isLoggedIn: !!sessionStorage.getItem('token'),
-  errors: {
-    email: [],
-    password: [],
-    non_field_errors: []
-  }
 }
 
 const mutations = {
@@ -26,8 +21,7 @@ const mutations = {
   [LOGOUT](state) {
     state.isLoggedIn = false;
   },
-  [LOGIN_FAIL](state, {response}) {
-    state.errors = response.data;
+  [LOGIN_FAIL](state, {error}) {
     state.pending = false;
     state.isLoggedIn = false;
   }
@@ -35,17 +29,22 @@ const mutations = {
 
 const actions = {
   login({commit}, creds) {
-    commit(LOGIN); // show spinner
-    Auth.login(creds).then(response => {
-      if (response.key) {
-        sessionStorage.setItem('token', response.key)
-        commit(LOGIN_SUCCESS);
-      } else {
-        commit(LOGIN_FAIL, {response})
-      }
+    return new Promise((resolve, reject) => {
+      commit(LOGIN); // show spinner
+      Auth.login(creds)
+        .then(response => {
+          sessionStorage.setItem('token', response.data.key)
+          commit(LOGIN_SUCCESS);
+          resolve()
+        })
+        .catch(error => {
+          commit(LOGIN_FAIL, {error})
+          reject(error.response.data)
+        })
     })
   },
-  logout({commit}) {
+  logout
+    ({commit}) {
     //todo
     sessionStorage.removeItem("token");
     commit(LOGOUT);
@@ -56,9 +55,6 @@ const getters = {
   isLoggedIn: state => {
     return state.isLoggedIn
   },
-  errors: state => {
-    return state.errors
-  }
 }
 
 export default {

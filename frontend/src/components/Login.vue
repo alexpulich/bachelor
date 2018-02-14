@@ -2,24 +2,24 @@
   <form class="form-signin" @submit.prevent="onSubmit">
     <h1 class="h3 mb-3 font-weight-normal">Авторизация</h1>
     <label for="inputEmail" class="sr-only">E-mail</label>
-    <input type="email" id="inputEmail" class="form-control"
+    <input type="email" id="inputEmail" class="form-control" :class="{'is-invalid': authErrors.email}"
            placeholder="E-mail" required="" autofocus="" v-model="form.email">
-    <!--<template v-if="errors.email">-->
-      <!--<div v-for="error in errors.email" class="invalid-feedback">{{ error }}</div>-->
-    <!--</template>-->
+    <template v-if="authErrors.email">
+      <div v-for="error in authErrors.email" class="invalid-feedback">{{ error }}</div>
+    </template>
     <label for="inputPassword" class="sr-only">Пароль</label>
-    <input type="password" id="inputPassword" class="form-control"
+    <input type="password" id="inputPassword" class="form-control" :class="{'is-invalid': authErrors.password}"
            placeholder="Пароль" required="" v-model="form.password">
-    <!--<template v-if="errors.password">-->
-      <!--<div v-for="error in errors.password" class="invalid-feedback">{{ error }}</div>-->
-    <!--</template>-->
-    <!--<template>-->
-      <!--<div class="alert alert-danger" v-if="errors.non_field_errors.length">-->
-        <!--<ul class="list-unstyled">-->
-          <!--<li v-for="error in errors.non_field_errors">{{ error }}</li>-->
-        <!--</ul>-->
-      <!--</div>-->
-    <!--</template>-->
+    <template v-if="authErrors.password">
+      <div v-for="error in authErrors.password" class="invalid-feedback">{{ error }}</div>
+    </template>
+    <template>
+      <div class="alert alert-danger" v-if="authErrors.non_field_errors">
+        <ul class="list-unstyled">
+          <li v-for="error in authErrors.non_field_errors">{{ error }}</li>
+        </ul>
+      </div>
+    </template>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
   </form>
 </template>
@@ -36,14 +36,17 @@
           email: '',
           password: ''
         },
+        authErrors: {},
       }
     },
-    //TODO сделать вывод ошибок при авторизации
-    computed: mapGetters([['isLoggedIn', 'errors']]),
+    computed: mapGetters(['isLoggedIn']),
 
     methods: {
       onSubmit() {
-        this.$store.dispatch("login", this.form).then((response) => {
+        this.$store.dispatch("login", this.form).then(() => {
+           this.$router.push('/')
+        }).catch((error) => {
+          this.authErrors = error;
         })
       }
     },
