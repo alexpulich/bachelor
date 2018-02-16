@@ -1,16 +1,24 @@
 import {Auth} from '../../api/auth'
 import {HTTP} from '../../api//common'
+import router from '../../router'
 
+const EMPTY_ERRORS = "EMPTY_ERRORS";
 const LOGIN = "LOGIN";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const LOGIN_FAIL = "LOGIN_FAIL";
 const LOGOUT = "LOGOUT";
+const REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
+const REGISTRATION_FAIL = "REGISTRATION_FAIL";
 
 const state = {
   isLoggedIn: !!sessionStorage.getItem('token'),
+  errors: []
 }
 
 const mutations = {
+  [EMPTY_ERRORS](state) {
+    state.errors = [];
+  },
   [LOGIN](state) {
     state.pending = true;
   },
@@ -18,42 +26,69 @@ const mutations = {
     state.isLoggedIn = true;
     state.pending = false;
   },
+  [REGISTRATION_SUCCESS](state) {
+    state.isLoggedIn = true;
+    state.pending = false;
+  },
   [LOGOUT](state) {
     state.isLoggedIn = false;
   },
-  [LOGIN_FAIL](state, {error}) {
+  [LOGIN_FAIL](state, {response}) {
     state.pending = false;
     state.isLoggedIn = false;
+    state.errors = response
+  },
+  [REGISTRATION_FAIL](state, {response}) {
+    state.pending = false;
+    state.isLoggedIn = false;
+    state.errors = response
   }
 }
 
 const actions = {
   login({commit}, creds) {
-    return new Promise((resolve, reject) => {
-      commit(LOGIN); // show spinner
-      Auth.login(creds)
-        .then(response => {
-          sessionStorage.setItem('token', response.data.key)
+    commit(EMPTY_ERRORS);
+    commit(LOGIN); // show spinner
+    Auth.login(creds)
+      .then(response => {
+        if ('key' in response) {
+          sessionStorage.setItem('token', response.key)
+          commit(EMPTY_ERRORS);
           commit(LOGIN_SUCCESS);
-          resolve()
-        })
-        .catch(error => {
-          commit(LOGIN_FAIL, {error})
-          reject(error.response.data)
-        })
-    })
+          router.push('/')
+        } else {
+          commit(LOGIN_FAIL, {response})
+        }
+      })
   },
-  logout
-    ({commit}) {
-    //todo
+  logout({commit}) {
     sessionStorage.removeItem("token");
     commit(LOGOUT);
+  },
+  registration({commit}, data) {
+    commit(LOGIN); // show spinner
+    Auth.registration(data).then(response => {
+      if ('key' in response) {
+        sessionStorage.setItem('token', response.key)
+        commit(EMPTY_ERRORS);
+        commit(REGISTRATION_SUCCESS);
+        router.push('/')
+      } else {
+        commit(REGISTRATION_FAIL, {response})
+      }
+    })
+  },
+  emptyErrors({commit}, data) {
+    commit(EMPTY_ERRORS)
   }
 }
 
 const getters = {
   isLoggedIn: state => {
     return state.isLoggedIn
+  },
+  errors: state => {
+    return state.errors
   },
 }
 

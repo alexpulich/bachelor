@@ -2,25 +2,30 @@
   <form class="form-signin" @submit.prevent="onSubmit">
     <h1 class="h3 mb-3 font-weight-normal">Авторизация</h1>
     <label for="inputEmail" class="sr-only">E-mail</label>
-    <input type="email" id="inputEmail" class="form-control" :class="{'is-invalid': authErrors.email}"
+    <input type="email" id="inputEmail" class="form-control" :class="{'is-invalid': errors.email}"
            placeholder="E-mail" required="" autofocus="" v-model="form.email">
-    <template v-if="authErrors.email">
-      <div v-for="error in authErrors.email" class="invalid-feedback">{{ error }}</div>
+    <template v-if="errors.email">
+      <div v-for="error in errors.email" class="invalid-feedback">{{ error }}</div>
     </template>
     <label for="inputPassword" class="sr-only">Пароль</label>
-    <input type="password" id="inputPassword" class="form-control" :class="{'is-invalid': authErrors.password}"
+    <input type="password" id="inputPassword" class="form-control" :class="{'is-invalid': errors.password}"
            placeholder="Пароль" required="" v-model="form.password">
-    <template v-if="authErrors.password">
-      <div v-for="error in authErrors.password" class="invalid-feedback">{{ error }}</div>
+    <template v-if="errors.password">
+      <div v-for="error in errors.password" class="invalid-feedback">{{ error }}</div>
     </template>
     <template>
-      <div class="alert alert-danger" v-if="authErrors.non_field_errors">
+      <div class="alert alert-danger" v-if="errors.non_field_errors">
         <ul class="list-unstyled">
-          <li v-for="error in authErrors.non_field_errors">{{ error }}</li>
+          <li v-for="error in errors.non_field_errors">{{ error }}</li>
         </ul>
       </div>
     </template>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+    <div class="form-group">
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+    </div>
+    <div class="text-center">
+      <router-link :to="{ name: 'Registration' }">Зарегистрироваться</router-link>
+    </div>
   </form>
 </template>
 
@@ -36,24 +41,20 @@
           email: '',
           password: ''
         },
-        authErrors: {},
       }
     },
-    computed: mapGetters(['isLoggedIn']),
+    computed: mapGetters(['isLoggedIn', 'errors']),
 
     methods: {
       onSubmit() {
-        this.$store.dispatch("login", this.form).then(() => {
-           this.$router.push('/')
-        }).catch((error) => {
-          this.authErrors = error;
-        })
+        this.$store.dispatch("login", this.form)
       }
     },
     created() {
       if (this.isLoggedIn) {
         this.$router.push("/")
       }
+      this.$store.dispatch('emptyErrors');
     }
   }
 </script>
