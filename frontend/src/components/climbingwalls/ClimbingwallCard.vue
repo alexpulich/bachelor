@@ -6,7 +6,9 @@
     </div>
     <dl class="row">
       <dt v-if="climbingwall.website" class="col-sm-4 text-right">Сайт:</dt>
-      <dd v-if="climbingwall.website" class="col-sm-8" v-text="climbingwall.website"></dd>
+      <dd v-if="climbingwall.website" class="col-sm-8">
+        <a :href="climbingwall.website" v-text="climbingwall.website"></a>
+      </dd>
       <dt v-if="climbingwall.contacts" class="col-sm-4 text-right">Контакты:</dt>
       <dd v-if="climbingwall.contacts" class="col-sm-8" v-text="climbingwall.contacts"></dd>
       <dt v-if="climbingwall.address" class="col-sm-4 text-right">Адрес:</dt>
