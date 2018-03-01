@@ -8,7 +8,8 @@ export const HTTP = axios.create({
 })
 
 HTTP.interceptors.request.use(config => {
-    if (sessionStorage.getItem("token")) config.headers.authorization = 'Token '+sessionStorage.getItem("token");
+    if (sessionStorage.getItem("token")) config.headers.authorization = 'JWT ' + sessionStorage.getItem("token");
     return config;
   },
-  error => Promise.reject(error));
+  error => Promise.reject(error)
+);

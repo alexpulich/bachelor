@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
 
@@ -7,6 +8,8 @@ from allauth.account import app_settings as allauth_settings
 from allauth.utils import email_address_exists
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
+
+from rest_framework_jwt.serializers import JSONWebTokenSerializer
 
 from portal.models import ClimbingWall, Route, RoutePicture, TrainingDay, TrainingDayRoute
 
@@ -28,6 +31,7 @@ class AuthorSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = ('id', 'first_name', 'last_name')
 
+
 class ClimbingWallOwnerSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ClimbingWall
@@ -37,7 +41,8 @@ class ClimbingWallOwnerSerializer(serializers.HyperlinkedModelSerializer):
 class RouteSerializer(serializers.HyperlinkedModelSerializer):
     # TODO: temporary read_only
     pictures = RoutePictureSerializer(many=True, read_only=True)
-    author = AuthorSerializer()
+    # author = AuthorSerializer()
+
     class Meta:
         model = Route
         fields = ('id', 'name', 'author', 'color', 'rank', 'climbing_wall', 'grade', 'pictures', 'active')
@@ -47,16 +52,18 @@ class RouteRatingSerializer(serializers.HyperlinkedModelSerializer):
     # TODO: temporary read_only
     author = AuthorSerializer()
     climbing_wall = ClimbingWallOwnerSerializer()
+
     class Meta:
         model = Route
         fields = ('id', 'name', 'author', 'color', 'rank', 'climbing_wall', 'grade')
+
 
 class ClimbingWallSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ClimbingWall
         # TODO добавить kinds
         fields = ('id', 'name', 'logo', 'description',
-                'address', 'website',
+                  'address', 'website',
                   'contacts', 'networks', 'open_time', 'routes')
 
 
@@ -115,3 +122,14 @@ class RegisterSerializer(serializers.Serializer):
         adapter.save_user(request, user, self)
         setup_user_email(request, user, [])
         return user
+
+
+class CustomJWTSerializer(JSONWebTokenSerializer):
+    @property
+    def username_field(self):
+        try:
+            username_field = get_user_model().EMAIL_FIELD
+        except:
+            username_field = 'email'
+
+        return username_field

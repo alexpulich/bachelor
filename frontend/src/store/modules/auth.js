@@ -51,8 +51,8 @@ const actions = {
     commit(LOGIN); // show spinner
     Auth.login(creds)
       .then(response => {
-        if ('key' in response) {
-          sessionStorage.setItem('token', response.key)
+        if ('token' in response) {
+          sessionStorage.setItem('token', response.token)
           commit(EMPTY_ERRORS);
           commit(LOGIN_SUCCESS);
           router.push('/')

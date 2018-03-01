@@ -15,8 +15,8 @@ from .serializers import UserSerializer, ClimbingWallSerializer, RouteSerializer
     RouteRatingSerializer, TrainingDaySerializer, TrainingDayRouteSerializer
 
 
-class LoginViewCustom(LoginView):
-    authentication_classes = (TokenAuthentication,)
+# class LoginViewCustom(LoginView):
+#     authentication_classes = (TokenAuthentication,)
 
 
 class RegisterViewCustom(RegisterView):
