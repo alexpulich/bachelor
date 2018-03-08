@@ -55,8 +55,7 @@ class ClimbingWallViewSet(viewsets.ModelViewSet):
     @list_route(methods=['get'],)
     def short(self, request):
         queryset = ClimbingWall.objects.all()
-        print(queryset)
-        json = ClimbingWallShortSerializer(queryset, many=True)
+        json = ClimbingWallShortSerializer(queryset, many=True, context={'request': request})
         return Response(json.data)
 
 
