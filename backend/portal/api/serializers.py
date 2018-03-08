@@ -41,7 +41,8 @@ class ClimbingWallOwnerSerializer(serializers.HyperlinkedModelSerializer):
 class RouteSerializer(serializers.HyperlinkedModelSerializer):
     # TODO: temporary read_only
     pictures = RoutePictureSerializer(many=True, read_only=True)
-    # author = AuthorSerializer()
+
+    # author = AutasphorSerializer()
 
     class Meta:
         model = Route
@@ -65,6 +66,12 @@ class ClimbingWallSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'name', 'logo', 'description',
                   'address', 'website',
                   'contacts', 'networks', 'open_time', 'routes')
+
+
+class ClimbingWallShortSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ClimbingWall
+        fields = ('id', 'name', 'logo')
 
 
 class TrainingDayRouteSerializer(serializers.HyperlinkedModelSerializer):

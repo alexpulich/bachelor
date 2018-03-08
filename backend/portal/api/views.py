@@ -12,7 +12,7 @@ from portal.models import ClimbingWall, Route, RoutePicture, \
     TrainingDay, TrainingDayRoute
 
 from .serializers import UserSerializer, ClimbingWallSerializer, RouteSerializer, RoutePictureSerializer, \
-    RouteRatingSerializer, TrainingDaySerializer, TrainingDayRouteSerializer
+    RouteRatingSerializer, TrainingDaySerializer, TrainingDayRouteSerializer, ClimbingWallShortSerializer
 
 
 # class LoginViewCustom(LoginView):
@@ -51,6 +51,14 @@ class ClimbingWallViewSet(viewsets.ModelViewSet):
         routes = Route.objects.filter(climbing_wall=climbing_wall, active=True)
         routes_json = RouteSerializer(routes, many=True, context={'request': request})
         return Response(routes_json.data)
+
+    @list_route(methods=['get'],)
+    def short(self, request):
+        queryset = ClimbingWall.objects.all()
+        print(queryset)
+        json = ClimbingWallShortSerializer(queryset, many=True)
+        return Response(json.data)
+
 
 
 class RouteViewSet(viewsets.ModelViewSet):
