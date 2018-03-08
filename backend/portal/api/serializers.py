@@ -14,31 +14,31 @@ from rest_framework_jwt.serializers import JSONWebTokenSerializer
 from portal.models import ClimbingWall, Route, RoutePicture, TrainingDay, TrainingDayRoute
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'email', 'first_name', 'last_name')
 
 
-class RoutePictureSerializer(serializers.HyperlinkedModelSerializer):
+class RoutePictureSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoutePicture
         fields = ('id', 'route', 'image')
 
 
-class AuthorSerializer(serializers.HyperlinkedModelSerializer):
+class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'first_name', 'last_name')
 
 
-class ClimbingWallOwnerSerializer(serializers.HyperlinkedModelSerializer):
+class ClimbingWallOwnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClimbingWall
         fields = ('id', 'name')
 
 
-class RouteSerializer(serializers.HyperlinkedModelSerializer):
+class RouteSerializer(serializers.ModelSerializer):
     # TODO: temporary read_only
     pictures = RoutePictureSerializer(many=True, read_only=True)
 
@@ -49,7 +49,7 @@ class RouteSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'name', 'author', 'color', 'rank', 'climbing_wall', 'grade', 'pictures', 'active')
 
 
-class RouteRatingSerializer(serializers.HyperlinkedModelSerializer):
+class RouteRatingSerializer(serializers.ModelSerializer):
     # TODO: temporary read_only
     author = AuthorSerializer()
     climbing_wall = ClimbingWallOwnerSerializer()
@@ -59,7 +59,7 @@ class RouteRatingSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'name', 'author', 'color', 'rank', 'climbing_wall', 'grade')
 
 
-class ClimbingWallSerializer(serializers.HyperlinkedModelSerializer):
+class ClimbingWallSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClimbingWall
         # TODO добавить kinds
@@ -68,19 +68,19 @@ class ClimbingWallSerializer(serializers.HyperlinkedModelSerializer):
                   'contacts', 'networks', 'open_time', 'routes')
 
 
-class ClimbingWallShortSerializer(serializers.HyperlinkedModelSerializer):
+class ClimbingWallShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClimbingWall
         fields = ('id', 'name', 'logo')
 
 
-class TrainingDayRouteSerializer(serializers.HyperlinkedModelSerializer):
+class TrainingDayRouteSerializer(serializers.ModelSerializer):
     class Meta:
         model = TrainingDayRoute
         fields = ('training_day', 'route', 'comments')
 
 
-class TrainingDaySerializer(serializers.HyperlinkedModelSerializer):
+class TrainingDaySerializer(serializers.ModelSerializer):
     training_routes = TrainingDayRouteSerializer(many=True)
 
     class Meta:
