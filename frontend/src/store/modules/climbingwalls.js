@@ -1,35 +1,45 @@
 import {Climbingwalls} from '../../api/climbingwalls'
 import {Routes} from '../../api/routes'
+import {Users} from '../../api/users'
 
 import Vue from 'vue'
 
 const SET_CLIMBINGWALLS = "SET_CLIMBINGWALLS";
+const SET_CLIMBINGWALLS_SHORT = "SET_CLIMBINGWALLS_SHORT";
 const SET_CLIMBINGWALLS_ROUTES = "SET_CLIMBINGWALLS_ROUTES";
-const SET_CLIMBINGWALLS_ROUTES_AUTHORS = "SET_CLIMBINGWALLS_ROUTES_AUTHORS";
 const SET_CURRENT_CLIMBINGWALL = "SET_CURRENT_CLIMBINGWALL";
 
 const ADD_ROUTE = "ADD_ROUTE";
 
 const state = {
   climbingwalls: {},
+  climbingwalls_short: {},
   climbingwalls_routes: {},
-  climbingwalls_routes_authors: {},
-  current_climbingwall: 0
 }
 
 const getters = {
   climbingwalls: state => state.climbingwalls,
+  climbingwalls_short: state => state.climbingwalls_short,
   climbingwall: (state) => (id) => {
     return state.climbingwalls[id]
   },
   climbingwall_routes: (state) => (id) => {
     return state.climbingwalls_routes[id];
-  }
+  },
 }
+
 
 const mutations = {
   [SET_CLIMBINGWALLS](state, {climbingwalls}) {
     state.climbingwalls = climbingwalls.reduce(
+      (acc, climbingwall) => {
+        acc[climbingwall.id] = climbingwall;
+        return acc;
+      }, {}
+    )
+  },
+  [SET_CLIMBINGWALLS_SHORT](state, {climbingwalls}) {
+    state.climbingwalls_short = climbingwalls.reduce(
       (acc, climbingwall) => {
         acc[climbingwall.id] = climbingwall;
         return acc;
@@ -52,20 +62,31 @@ const mutations = {
 
   [ADD_ROUTE](state, {route}) {
     Vue.set(state.climbingwalls_routes[state.current_climbingwall], route.id, route)
-  }
+  },
 }
 
 const actions = {
   getClimbingwalls({commit}) {
-    Climbingwalls.list().then(climbingwalls => {
-      commit(SET_CLIMBINGWALLS, {climbingwalls})
-    });
+    Climbingwalls.list()
+      .then(climbingwalls => {
+        commit(SET_CLIMBINGWALLS, {climbingwalls});
+      })
   },
-  getClimbingwallsRoutes({commit}, id) {
+  getClimbingwallsShort({commit}) {
+    Climbingwalls.short()
+      .then(climbingwalls => {
+        commit(SET_CLIMBINGWALLS_SHORT, {climbingwalls});
+      })
+  },
+  getClimbingwallsRoutes({dispatch, commit}, id) {
     commit(SET_CURRENT_CLIMBINGWALL, {id});
     Climbingwalls.routes(id).then((routes) => {
       commit(SET_CLIMBINGWALLS_ROUTES, {routes})
-    });
+      routes.forEach(function(item, i, arr) {
+          dispatch('getUser', item.author)
+        })
+    })
+    ;
   },
   addRoute({commit}, route) {
     Routes.add(route)

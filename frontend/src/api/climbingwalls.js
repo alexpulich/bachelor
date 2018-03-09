@@ -1,10 +1,17 @@
 import { HTTP } from './common'
 
 const ENDPOINT = '/climbingwalls/';
+const SHORT = 'short/';
 
 export const Climbingwalls = {
   list () {
     return HTTP.get(ENDPOINT).then(response => {
+      return response.data
+    })
+  },
+
+  short () {
+    return HTTP.get(ENDPOINT + SHORT).then(response => {
       return response.data
     })
   },

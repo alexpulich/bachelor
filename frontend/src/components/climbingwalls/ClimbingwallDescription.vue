@@ -2,7 +2,8 @@
   <div class="shadow bg-white p-4 border rounded">
     <h2>О скалодроме</h2>
     <p v-text="climbingwall.description"></p>
-    <routes-table></routes-table>
+    <routes-table :routes="routes" :users="users">
+    </routes-table>
     <hr>
     <add-route v-if="isLoggedIn"></add-route>
   </div>
@@ -16,10 +17,8 @@
   export default {
     name: 'ClimbingwallDescription',
     components: {RoutesTable, AddRoute},
+    props: ['climbingwall', 'routes', 'users'],
     computed: {
-      climbingwall() {
-        return this.$store.getters.climbingwall(this.$route.params.id)
-      },
       ...mapGetters(['isLoggedIn'])
     }
   }

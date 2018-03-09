@@ -1,10 +1,14 @@
 <template>
   <b-row>
     <b-col sm="4">
-      <climbingwall-card></climbingwall-card>
+      <climbingwall-card :climbingwall="climbingwall">
+      </climbingwall-card>
     </b-col>
     <b-col sm="8">
-      <climbingwall-description></climbingwall-description>
+      <climbingwall-description :climbingwall="climbingwall"
+                                :routes="routes"
+                                :users="users">
+      </climbingwall-description>
     </b-col>
   </b-row>
 </template>
@@ -16,8 +20,23 @@
   export default {
     name: 'Climbingwall',
     components: {ClimbingwallCard, ClimbingwallDescription},
-    created() {
-      this.$store.dispatch('getClimbingwallsRoutes', this.$route.params.id)
+    computed: {
+      climbingwall() {
+        if (!(this.$store.getters.climbingwall(this.$route.params.id))) {
+          //TODO сделать забор только одного скалодрома
+          this.$store.dispatch('getClimbingwalls')
+        }
+        return this.$store.getters.climbingwall(this.$route.params.id)
+      },
+      routes() {
+        if (!(this.$store.getters.climbingwall_routes(this.$route.params.id))) {
+          this.$store.dispatch('getClimbingwallsRoutes', this.$route.params.id)
+        }
+        return this.$store.getters.climbingwall_routes(this.$route.params.id)
+      },
+      users() {
+        return this.$store.getters.users
+      }
     },
   }
 </script>

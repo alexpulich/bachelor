@@ -15,7 +15,8 @@
         <td>{{route.name}}</td>
         <td>{{route.grade}}</td>
         <td>{{route.rank}}</td>
-        <td>{{route.author.first_name + ' ' + route.author.last_name }}</td>
+        <!-- TODO сделать красивее-->
+        <td>{{users[route.author].first_name + ' ' + users[route.author].last_name}}</td>
       </tr>
       </tbody>
     </table>
@@ -28,13 +29,19 @@
 <script>
   export default {
     name: 'RoutesTable',
+    props: ['routes', 'users'],
+    data() {
+      return {
+        climbing_wall
+      }
+    },
     computed: {
-      routes() {
-        return this.$store.getters.climbingwall_routes(this.$route.params.id);
-      },
-      climbingwall() {
-        return this.$store.getters.climbingwall(this.$route.params.id)
-      },
+//      authors() {
+//        return this.$store.getters.authors;
+//      },
+//      climbingwall() {
+//        return this.$store.getters.climbingwall(this.$route.params.id)
+//      },
     },
   }
 </script>

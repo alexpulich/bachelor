@@ -45,11 +45,11 @@
           color: '',
           grade: null,
           rank: 0,
-          climbingwall: HTTP.defaults.baseURL+'climbingwalls/'+this.$route.params.id+'/',
+          climbing_wall: this.$route.params.id,
           //TODO активной трасса должна быть только от проверенных людей
           active: 'true',
           //TODO захардкодил себя автором!!!
-          author: HTTP.defaults.baseURL+'users/'+1+'/'
+          author: 1
         },
         options: [
           { value: null, text: 'Категория сложности' },

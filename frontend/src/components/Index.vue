@@ -4,7 +4,7 @@
       <h1>Скалодромы</h1>
       <b-card-group deck>
         <!--<b-col sm="3" v-for="climbingwall in climbingwalls" :key="climbingwall.id">-->
-        <b-card v-for="climbingwall in climbingwalls" :key="climbingwall.id"
+        <b-card v-for="climbingwall in climbingwalls_short" :key="climbingwall.id"
                 :title="climbingwall.name"
                 :img-src="climbingwall.logo"
                 :img-alt="climbingwall.name"
@@ -31,10 +31,10 @@
   export default {
     name: 'Index',
 
-    computed: mapGetters(['climbingwalls']),
+    computed: mapGetters(['climbingwalls_short']),
 
     beforeMount() {
-      this.$store.dispatch('getClimbingwalls')
+      this.$store.dispatch('getClimbingwallsShort')
     }
 
   }

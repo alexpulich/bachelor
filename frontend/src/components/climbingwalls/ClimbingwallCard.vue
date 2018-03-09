@@ -22,11 +22,7 @@
 <script>
   export default {
     name: 'ClimbingwallCard',
-    computed: {
-      climbingwall() {
-        return this.$store.getters.climbingwall(this.$route.params.id)
-      },
-    }
+    props: ['climbingwall'],
   }
 </script>
 
