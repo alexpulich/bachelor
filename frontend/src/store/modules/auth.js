@@ -1,6 +1,8 @@
 import {Auth} from '../../api/auth'
 import {HTTP} from '../../api//common'
 import router from '../../router'
+import VueJwtDecode from 'vue-jwt-decode'
+
 
 const EMPTY_ERRORS = "EMPTY_ERRORS";
 const LOGIN = "LOGIN";
@@ -12,7 +14,9 @@ const REGISTRATION_FAIL = "REGISTRATION_FAIL";
 
 const state = {
   isLoggedIn: !!sessionStorage.getItem('token'),
-  errors: []
+  userId: (sessionStorage.getItem('token')) ? VueJwtDecode.decode(sessionStorage.getItem('token')).user_id : 0,
+  errors: [],
+  pending: false
 }
 
 const mutations = {
@@ -25,6 +29,7 @@ const mutations = {
   [LOGIN_SUCCESS](state) {
     state.isLoggedIn = true;
     state.pending = false;
+    state.user_id = VueJwtDecode.decode(sessionStorage.getItem('token')).user_id;
   },
   [REGISTRATION_SUCCESS](state) {
     state.isLoggedIn = true;
@@ -32,6 +37,7 @@ const mutations = {
   },
   [LOGOUT](state) {
     state.isLoggedIn = false;
+    state.user_id = 0;
   },
   [LOGIN_FAIL](state, {response}) {
     state.pending = false;
@@ -84,6 +90,7 @@ const actions = {
 }
 
 const getters = {
+  userId: state => state.userId,
   isLoggedIn: state => {
     return state.isLoggedIn
   },

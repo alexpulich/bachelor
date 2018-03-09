@@ -48,8 +48,7 @@
           climbing_wall: this.$route.params.id,
           //TODO активной трасса должна быть только от проверенных людей
           active: 'true',
-          //TODO захардкодил себя автором!!!
-          author: 1
+          author: 0
         },
         options: [
           { value: null, text: 'Категория сложности' },
@@ -62,10 +61,15 @@
       }
     },
     computed: {
+      userId() {
+        return this.$store.getters.userId
+      }
     },
     methods: {
       onSubmit() {
-        this.$store.dispatch('addRoute', this.form)
+        let data = this.form;
+        data.author = this.userId;
+        this.$store.dispatch('addRoute', data)
       },
       onReset() {
         this.form.id = 0;
