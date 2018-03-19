@@ -4,6 +4,12 @@ const ENDPOINT = '/climbingwalls/';
 const SHORT = 'short/';
 
 export const Climbingwalls = {
+  set(climbingwall) {
+    return HTTP.put(ENDPOINT + climbingwall.id + '/', climbingwall).then(response => {
+      return response.data
+    })
+  },
+
   list () {
     return HTTP.get(ENDPOINT).then(response => {
       return response.data

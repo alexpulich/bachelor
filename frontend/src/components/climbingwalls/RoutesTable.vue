@@ -8,6 +8,7 @@
         <th scope="col">Категория</th>
         <th scope="col">Рейтинг</th>
         <th scope="col">Автор</th>
+        <!--<th v-if="isLoggedIn" scope="col"></th>-->
       </tr>
       </thead>
       <tbody>
@@ -17,6 +18,7 @@
         <td>{{route.rank}}</td>
         <!-- TODO сделать красивее-->
         <td>{{users[route.author].first_name + ' ' + users[route.author].last_name}}</td>
+        <!--<td v-if="isLoggedIn"><router-link :to="{ name: 'RouteEdit', params: { id: route.item.id }}"><i class="fa fa-edit"></i></router-link></td>-->
       </tr>
       </tbody>
     </table>
@@ -27,22 +29,13 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+
   export default {
     name: 'RoutesTable',
-    props: ['routes', 'users'],
-    data() {
-      return {
-        climbing_wall
-      }
-    },
-    computed: {
-//      authors() {
-//        return this.$store.getters.authors;
-//      },
-//      climbingwall() {
-//        return this.$store.getters.climbingwall(this.$route.params.id)
-//      },
-    },
+    props: ['routes', 'users', 'climbingwall'],
+    computed: mapGetters(['isLoggedIn']),
+
   }
 </script>
 

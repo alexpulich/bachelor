@@ -4,10 +4,12 @@ import {Users} from '../../api/users'
 
 import Vue from 'vue'
 
+const SET_CLIMBINGWALL = 'SET_CLIMBINGWALL';
 const SET_CLIMBINGWALLS = "SET_CLIMBINGWALLS";
 const SET_CLIMBINGWALLS_SHORT = "SET_CLIMBINGWALLS_SHORT";
 const SET_CLIMBINGWALLS_ROUTES = "SET_CLIMBINGWALLS_ROUTES";
 const SET_CURRENT_CLIMBINGWALL = "SET_CURRENT_CLIMBINGWALL";
+
 
 const ADD_ROUTE = "ADD_ROUTE";
 
@@ -30,6 +32,9 @@ const getters = {
 
 
 const mutations = {
+  [SET_CLIMBINGWALL](state, {climbingwall}) {
+    Vue.set(state.climbingwalls, climbingwall.id, climbingwall);
+  },
   [SET_CLIMBINGWALLS](state, {climbingwalls}) {
     state.climbingwalls = climbingwalls.reduce(
       (acc, climbingwall) => {
@@ -63,6 +68,7 @@ const mutations = {
   [ADD_ROUTE](state, {route}) {
     Vue.set(state.climbingwalls_routes[state.current_climbingwall], route.id, route)
   },
+
 }
 
 const actions = {
@@ -88,10 +94,13 @@ const actions = {
     })
     ;
   },
+  setClimbingwall({commit}, climbingwall) {
+    Climbingwalls.set(climbingwall)
+      .then(response => {})
+  },
   addRoute({commit}, route) {
     Routes.add(route)
       .then(response => {
-        console.log(route);
         commit(ADD_ROUTE, {route})
       })
   }

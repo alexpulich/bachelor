@@ -32,6 +32,11 @@ export default new Router({
       name: 'Route',
       component: Route
     },
+    // {
+    //   path: '/routes/:id/edit',
+    //   name: 'RouteEdit',
+    //   component: RouteEdit
+    // },
     {
       path: '/login/',
       name: 'Login',
