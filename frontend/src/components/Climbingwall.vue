@@ -7,8 +7,7 @@
     <b-col sm="8">
       <climbingwall-description v-if="climbingwall"
                                 :climbingwall="climbingwall"
-                                :routes="routes"
-                                :users="users">
+                                :routes="routes">
       </climbingwall-description>
     </b-col>
   </b-row>
@@ -34,9 +33,6 @@
         }
         return this.$store.getters.climbingwall_routes(this.$route.params.id)
       },
-      users() {
-        return this.$store.getters.users
-      }
     },
   }
 </script>

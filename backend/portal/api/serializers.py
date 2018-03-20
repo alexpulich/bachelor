@@ -46,8 +46,7 @@ class ClimbingWallOwnerSerializer(serializers.ModelSerializer):
 class RouteSerializer(serializers.ModelSerializer):
     # TODO: temporary read_only
     pictures = RoutePictureShortSerializer(many=True, read_only=True)
-
-    # author = AutasphorSerializer()
+    author = AuthorSerializer()
 
     class Meta:
         model = Route

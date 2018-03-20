@@ -17,7 +17,7 @@
         <td>{{route.grade}}</td>
         <td>{{route.rank}}</td>
         <!-- TODO сделать красивее-->
-        <td>{{users[route.author].first_name + ' ' + users[route.author].last_name}}</td>
+        <td>{{route.author.first_name + ' ' + route.author.last_name}}</td>
         <!--<td v-if="isLoggedIn"><router-link :to="{ name: 'RouteEdit', params: { id: route.item.id }}"><i class="fa fa-edit"></i></router-link></td>-->
       </tr>
       </tbody>
@@ -33,7 +33,7 @@
 
   export default {
     name: 'RoutesTable',
-    props: ['routes', 'users', 'climbingwall'],
+    props: ['routes', 'climbingwall'],
     computed: mapGetters(['isLoggedIn']),
 
   }

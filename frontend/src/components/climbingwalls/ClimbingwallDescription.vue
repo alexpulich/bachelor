@@ -22,7 +22,7 @@
           <!--<img class="img-fluid img-thumbnail" :src="image" alt="">-->
         <!--</div>-->
       <!--</div>-->
-      <routes-table :routes="routes" :users="users" :climbingwall="climbingwall">
+      <routes-table :routes="routes" :climbingwall="climbingwall">
       </routes-table>
       <hr>
       <add-route v-if="isLoggedIn"></add-route>
@@ -40,7 +40,7 @@
   export default {
     name: 'ClimbingwallDescription',
     components: {RoutesTable, AddRoute, ClimbingwallEdit},
-    props: ['climbingwall', 'routes', 'users', 'VueGallery'],
+    props: ['climbingwall', 'routes', 'VueGallery'],
     data() {
       return {
         isEditing: false,
