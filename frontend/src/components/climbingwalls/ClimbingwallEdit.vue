@@ -21,7 +21,8 @@
         <label for="contacts">Контакты: </label>
         <input id="contacts" name="contacts" type="text" class="form-control" v-model="climbingwall.contacts">
       </div>
-1        <label for="open_time">Режим работы: </label>
+      <div class="form-group">
+        <label for="open_time">Режим работы: </label>
         <input id="open_time" name="open_time" type="text" class="form-control" v-model="climbingwall.open_time">
       </div>
       <div class="form-group">

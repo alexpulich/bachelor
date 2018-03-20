@@ -3,6 +3,12 @@ import { HTTP } from './common'
 const ENDPOINT = '/routes/'
 
 export const Routes = {
+  set(route) {
+    return HTTP.put(ENDPOINT + route.id + '/', route).then(response => {
+      return response.data
+    })
+  },
+
   list () {
     return HTTP.get(ENDPOINT).then(response => {
       return response.data
@@ -11,6 +17,12 @@ export const Routes = {
 
   rating () {
     return HTTP.get(ENDPOINT + 'rating/').then(response => {
+      return response.data
+    })
+  },
+
+  pictures(routeId) {
+    return HTTP.get(ENDPOINT + routeId + '/pictures/').then(response => {
       return response.data
     })
   },

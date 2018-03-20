@@ -25,6 +25,11 @@ class RoutePictureSerializer(serializers.ModelSerializer):
         model = RoutePicture
         fields = ('id', 'route', 'image')
 
+class RoutePictureShortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoutePicture
+        fields = ('image',)
+
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,13 +45,13 @@ class ClimbingWallOwnerSerializer(serializers.ModelSerializer):
 
 class RouteSerializer(serializers.ModelSerializer):
     # TODO: temporary read_only
-    pictures = RoutePictureSerializer(many=True, read_only=True)
+    pictures = RoutePictureShortSerializer(many=True, read_only=True)
 
     # author = AutasphorSerializer()
 
     class Meta:
         model = Route
-        fields = ('id', 'name', 'author', 'color', 'rank', 'climbing_wall', 'grade', 'pictures', 'active')
+        fields = ('id', 'name', 'description', 'author', 'color', 'rank', 'climbing_wall', 'grade', 'pictures', 'active')
 
 
 class RouteRatingSerializer(serializers.ModelSerializer):

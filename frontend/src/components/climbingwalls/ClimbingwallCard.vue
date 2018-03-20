@@ -1,7 +1,7 @@
 <template>
   <div class="shadow bg-white p-4 border rounded">
     <div class="text-center">
-      <h5 v-text="climbingwall.name"></h5>
+      <h2 v-text="climbingwall.name"></h2>
       <b-img fluid :src="climbingwall.logo" class="mb-3 logo"/>
     </div>
     <dl class="row">

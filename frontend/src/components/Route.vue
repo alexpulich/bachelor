@@ -1,9 +1,10 @@
 <template>
   <b-row>
-    <b-col sm="5">
+    <b-col sm="4">
       <route-card :route="route"></route-card>
     </b-col>
-    <b-col sm="7">
+    <b-col sm="8">
+      <route-description :route="route"></route-description>
     </b-col>
   </b-row>
 </template>
@@ -11,17 +12,18 @@
 <script>
   import {Routes} from '../api/routes'
   import RouteCard from './routes/RouteCard.vue'
+  import RouteDescription from './routes/RouteDescription.vue'
 
   export default {
     name: 'Route',
-    components: {RouteCard},
-    data() {
-      return {
-        route: {}
-      }
-    },
-    created() {
-      Routes.item(this.$route.params.id).then(response => (this.route = response))
+    components: {RouteCard, RouteDescription},
+    computed: {
+      route() {
+        if (!(this.$store.getters.route(this.$route.params.id))) {
+          this.$store.dispatch('getRoute', this.$route.params.id)
+        }
+        return this.$store.getters.route(this.$route.params.id)
+      },
     }
   }
 </script>

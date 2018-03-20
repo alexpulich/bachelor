@@ -1,7 +1,7 @@
 <template>
   <div class="shadow bg-white p-4 border rounded">
-    <div class="text-center" v-if="route.pictures">
-      <b-img fluid :src="route.pictures[0]" class="mb-3 logo"/>
+    <div class="text-center">
+      <h2>Карточка трассы</h2>
     </div>
     <dl class="row">
         <dt v-if="route.name" class="col-sm-4 text-right">Название:</dt>

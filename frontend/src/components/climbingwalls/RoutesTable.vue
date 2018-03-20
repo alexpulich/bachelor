@@ -13,7 +13,7 @@
       </thead>
       <tbody>
       <tr v-for="route in routes">
-        <td>{{route.name}}</td>
+        <td><router-link :to="{ name: 'Route', params: { id: route.id }}">{{route.name}}</router-link></td>
         <td>{{route.grade}}</td>
         <td>{{route.rank}}</td>
         <!-- TODO сделать красивее-->

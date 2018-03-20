@@ -1,37 +1,33 @@
-import {Climbingwalls} from '../../api/climbingwalls'
 import {Routes} from '../../api/routes'
-import {Users} from '../../api/users'
 
 import Vue from 'vue'
 
-const SET_CLIMBINGWALL = 'SET_CLIMBINGWALL';
-const SET_CLIMBINGWALLS = "SET_CLIMBINGWALLS";
-const SET_CLIMBINGWALLS_SHORT = "SET_CLIMBINGWALLS_SHORT";
-const SET_CLIMBINGWALLS_ROUTES = "SET_CLIMBINGWALLS_ROUTES";
-const SET_CURRENT_CLIMBINGWALL = "SET_CURRENT_CLIMBINGWALL";
-
-
-const ADD_ROUTE = "ADD_ROUTE";
+const SET_ROUTE = 'SET_ROUTE'
+const SET_ROUTE_PICTURES = 'SET_ROUTE_PICTURES'
 
 const state = {
-  climbingwalls: {},
-  climbingwalls_short: {},
-  climbingwalls_routes: {},
+  routes: {},
+  pictures: {},
 }
 
 const getters = {
-  climbingwalls: state => state.climbingwalls,
-  climbingwalls_short: state => state.climbingwalls_short,
-  climbingwall: (state) => (id) => {
-    return state.climbingwalls[id]
+  route: (state) => (id) => {
+    return state.routes[id]
   },
-  climbingwall_routes: (state) => (id) => {
-    return state.climbingwalls_routes[id];
-  },
+  routePictures: (state) => (id) => {
+    return state.pictures[id]
+  }
 }
 
 
 const mutations = {
+  [SET_ROUTE](state, {route}) {
+    Vue.set(state.routes, route.id, route);
+  },
+  [SET_ROUTE_PICTURES](state, {picture}) {
+    Vue.set(state.pictures, picture.route, picture);
+  }
+  /*
   [SET_CLIMBINGWALL](state, {climbingwall}) {
     Vue.set(state.climbingwalls, climbingwall.id, climbingwall);
   },
@@ -68,16 +64,28 @@ const mutations = {
   [ADD_ROUTE](state, {route}) {
     Vue.set(state.climbingwalls_routes[state.current_climbingwall], route.id, route)
   },
-
+  */
 }
 
 const actions = {
-  getClimbingwall({commit}, id) {
-    Climbingwalls.item(id)
-      .then(climbingwall => {
-        commit(SET_CLIMBINGWALL, {climbingwall});
+  getRoute({commit}, id) {
+    Routes.item(id)
+      .then(route => {
+        commit(SET_ROUTE, {route})
       })
   },
+  getPictures({commit}, id) {
+    Routes.pictures(id)
+      .then(pictures => {
+        commit(SET_ROUTE_PICTURES, {pictures});
+        console.log(pictures);
+      })
+  },
+  setRoute({commit}, route) {
+    Routes.set(route)
+      .then(response => {})
+  },
+  /*
   getClimbingwalls({commit}) {
     Climbingwalls.list()
       .then(climbingwalls => {
@@ -110,6 +118,7 @@ const actions = {
         commit(ADD_ROUTE, {route})
       })
   }
+  */
 }
 
 export default {

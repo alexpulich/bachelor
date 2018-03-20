@@ -70,6 +70,15 @@ class RouteViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
+    '''
+    @detail_route(methods=['get'], )
+    def pictures(self, request, pk=None):
+        route = self.get_object()  # retrieve an object by pk provided
+        pictures = RoutePicture.objects.filter(route=route)
+        pictures_json = RouteSerializer(pictures, many=True, context={'request': request})
+        return Response(pictures_json.data)
+    '''
+
     @list_route(methods=['get'], )
     def rating(self, request):
         routes = Route.objects.filter(active=True).order_by('-rank')

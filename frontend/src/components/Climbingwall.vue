@@ -1,11 +1,12 @@
 <template>
   <b-row>
     <b-col sm="4">
-      <climbingwall-card :climbingwall="climbingwall">
+      <climbingwall-card v-if="climbingwall" :climbingwall="climbingwall">
       </climbingwall-card>
     </b-col>
     <b-col sm="8">
-      <climbingwall-description :climbingwall="climbingwall"
+      <climbingwall-description v-if="climbingwall"
+                                :climbingwall="climbingwall"
                                 :routes="routes"
                                 :users="users">
       </climbingwall-description>
@@ -23,8 +24,7 @@
     computed: {
       climbingwall() {
         if (!(this.$store.getters.climbingwall(this.$route.params.id))) {
-          //TODO сделать забор только одного скалодрома
-          this.$store.dispatch('getClimbingwalls')
+          this.$store.dispatch('getClimbingwall', this.$route.params.id)
         }
         return this.$store.getters.climbingwall(this.$route.params.id)
       },
