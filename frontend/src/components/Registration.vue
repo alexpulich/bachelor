@@ -3,7 +3,10 @@
     <div class="col-sm-6 mx-auto">
       <h1>Регистрация</h1>
       <div class="shadow bg-white p-4 border rounded">
-        <form @submit.prevent="onSubmit">
+        <div class="alert alert-success" v-if="isLoggedIn">
+          Вы успешно зарегистрировались! <router-link :to="{ name: 'Index' }">Перейти на главную</router-link>
+        </div>
+        <form @submit.prevent="onSubmit" v-else>
           <div class="form-group">
             <label for="email">E-mail</label>
             <input v-model="form.email" :class="{'is-invalid': errors.email }" type="email" class="form-control"
@@ -65,7 +68,8 @@
           last_name: '',
           password1: '',
           password2: ''
-        }
+        },
+        registered: false
       }
     },
     computed: mapGetters(['isLoggedIn', 'errors']),

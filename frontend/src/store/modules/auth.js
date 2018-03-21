@@ -74,11 +74,10 @@ const actions = {
   registration({commit}, data) {
     commit(LOGIN); // show spinner
     Auth.registration(data).then(response => {
-      if ('key' in response) {
-        sessionStorage.setItem('token', response.key)
+      if ('token' in response) {
+        sessionStorage.setItem('token', response.token)
         commit(EMPTY_ERRORS);
         commit(REGISTRATION_SUCCESS);
-        router.push('/')
       } else {
         commit(REGISTRATION_FAIL, {response})
       }
