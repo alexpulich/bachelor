@@ -5,7 +5,7 @@ from rest_framework import routers
 from .views import UserViewSet, ClimbingWallViewSet, \
     RouteViewSet, RoutePictureViewSet, TrainingDayViewSet, \
     TrainingDayRoutesViewSet, RegisterViewCustom  # , LoginViewCustom
-from .serializers import CustomJWTSerializer
+from .serializers.auth import CustomJWTSerializer
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)

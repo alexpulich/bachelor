@@ -136,7 +136,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'portal.api.serializers.RegisterSerializer',
+    'REGISTER_SERIALIZER': 'portal.api.serializers.auth.RegisterSerializer',
 }
 
 
