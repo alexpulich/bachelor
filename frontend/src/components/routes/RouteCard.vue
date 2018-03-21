@@ -6,6 +6,10 @@
     <dl class="row">
         <dt v-if="route.name" class="col-sm-4 text-right">Название:</dt>
         <dd v-if="route.name" class="col-sm-8" v-text="route.name"></dd>
+        <dt v-if="route.kind" class="col-sm-4 text-right">Дисциплина:</dt>
+        <dd v-if="route.kind" class="col-sm-8">
+          <span class="badge badge-pill badge-primary" v-text="route.kind.name"></span>
+        </dd>
         <dt v-if="route.color" class="col-sm-4 text-right">Цвет:</dt>
         <dd v-if="route.color" class="col-sm-8" v-text="route.color"></dd>
         <dt v-if="route.grade" class="col-sm-4 text-right">Категория:</dt>

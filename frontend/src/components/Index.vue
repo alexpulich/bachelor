@@ -13,6 +13,7 @@
                 tag="article"
                 style="max-width: 20rem; min-width: 15rem;"
                 class="mb-2 shadow">
+          <span v-for="kind in climbingwall.kinds" class="badge badge-pill badge-primary" v-text="kind.name"></span>
           <p class="card-text">
             {{ climbingwall.description }}
           </p>

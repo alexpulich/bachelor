@@ -5,6 +5,10 @@
       <b-img fluid :src="climbingwall.logo" class="mb-3 logo"/>
     </div>
     <dl class="row">
+      <dt v-if="climbingwall.kinds.length" class="col-sm-4 text-right">Дисциплины:</dt>
+      <dd v-if="climbingwall.kinds.length" class="col-sm-8">
+        <span v-for="kind in climbingwall.kinds" class="badge badge-pill badge-primary mr-1" v-text="kind.name"></span>
+      </dd>
       <dt v-if="climbingwall.website" class="col-sm-4 text-right">Сайт:</dt>
       <dd v-if="climbingwall.website" class="col-sm-8">
         <a :href="climbingwall.website" v-text="climbingwall.website"></a>
