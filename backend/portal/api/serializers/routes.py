@@ -22,10 +22,13 @@ class RouteSerializer(serializers.ModelSerializer):
     # TODO: temporary read_only
     pictures = RoutePictureShortSerializer(many=True, read_only=True)
     author = users.ShortUserSerializer()
+    kind = climbingwalls.KindNameSerializer()
 
     class Meta:
         model = models.Route
-        fields = ('id', 'name', 'description', 'author', 'color', 'rank', 'climbing_wall', 'grade', 'pictures', 'active')
+        fields = ('id', 'name', 'description', 'author',
+                  'color', 'rank', 'climbing_wall', 'grade',
+                  'pictures', 'active', 'kind')
 
 
 class RouteRatingSerializer(serializers.ModelSerializer):
