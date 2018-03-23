@@ -52,8 +52,8 @@ class ClimbingWallViewSet(viewsets.ModelViewSet):
 
     @detail_route(methods=['get'],)
     def routes(self, request, pk=None):
-        climbing_wall = self.get_object()  # retrieve an object by pk provided
-        routes = models.Route.objects.filter(climbing_wall=climbing_wall, active=True)
+        climbingwall = self.get_object()  # retrieve an object by pk provided
+        routes = models.Route.objects.filter(climbingwall=climbingwall, active=True)
         routes_json = routes_serializers.RouteSerializer(routes, many=True, context={'request': request})
         return Response(routes_json.data)
 
