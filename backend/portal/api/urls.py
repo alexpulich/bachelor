@@ -4,7 +4,8 @@ from django.conf.urls import url, include
 from rest_framework import routers
 from .views import UserViewSet, ClimbingWallViewSet, \
     RouteViewSet, RoutePictureViewSet, TrainingDayViewSet, \
-    TrainingDayRoutesViewSet, RegisterViewCustom  # , LoginViewCustom
+    TrainingDayRoutesViewSet, RegisterViewCustom, \
+    ClimbingKindViewSet  # , LoginViewCustom
 from .serializers.auth import CustomJWTSerializer
 
 router = routers.DefaultRouter()
@@ -14,6 +15,7 @@ router.register(r'routes', RouteViewSet)
 router.register(r'routepictures', RoutePictureViewSet)
 router.register(r'trainingdays', TrainingDayViewSet)
 router.register(r'trainingdaysroutes', TrainingDayRoutesViewSet)
+router.register(r'climbingkinds', ClimbingKindViewSet)
 
 
 urlpatterns = [

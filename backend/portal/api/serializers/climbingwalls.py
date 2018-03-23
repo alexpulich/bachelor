@@ -1,9 +1,18 @@
 from rest_framework import serializers
 
 from portal import models
+from .utils import Base64ImageField
 
 
-class KindNameSerializer(serializers.ModelSerializer):
+class ClimbingKindSerializer(serializers.ModelSerializer):
+    """Serializer for full climbing kind"""
+    class Meta:
+        model = models.ClimbingKind
+        fields = ('id', 'name')
+
+
+class ClimbingKindNameSerializer(serializers.ModelSerializer):
+    """Serializer for just name of climbing kind"""
     class Meta:
         model = models.ClimbingKind
         fields = ('name',)
@@ -11,7 +20,10 @@ class KindNameSerializer(serializers.ModelSerializer):
 
 class ClimbingWallSerializer(serializers.ModelSerializer):
     """Serializer for full climbingwall view"""
-    kinds = KindNameSerializer(many=True)
+    # kinds = ClimbingKindSerializer(many=True)
+    logo = Base64ImageField(
+        max_length=None, use_url=True,
+    )
 
     class Meta:
         model = models.ClimbingWall
@@ -23,7 +35,10 @@ class ClimbingWallSerializer(serializers.ModelSerializer):
 
 class ClimbingWallShortSerializer(serializers.ModelSerializer):
     """Short climbingwall serializer for list views"""
-    kinds = KindNameSerializer(many=True)
+    kinds = ClimbingKindSerializer(many=True)
+    logo = Base64ImageField(
+        max_length=None, use_url=True,
+    )
 
     class Meta:
         model = models.ClimbingWall

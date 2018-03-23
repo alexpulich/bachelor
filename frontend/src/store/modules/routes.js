@@ -7,7 +7,7 @@ const SET_ROUTE_PICTURES = 'SET_ROUTE_PICTURES'
 
 const state = {
   routes: {},
-  pictures: {},
+  pictures: {}
 }
 
 const getters = {
@@ -19,52 +19,13 @@ const getters = {
   }
 }
 
-
 const mutations = {
-  [SET_ROUTE](state, {route}) {
+  [SET_ROUTE] (state, {route}) {
     Vue.set(state.routes, route.id, route);
   },
-  [SET_ROUTE_PICTURES](state, {picture}) {
+  [SET_ROUTE_PICTURES] (state, {picture}) {
     Vue.set(state.pictures, picture.route, picture);
   }
-  /*
-  [SET_CLIMBINGWALL](state, {climbingwall}) {
-    Vue.set(state.climbingwalls, climbingwall.id, climbingwall);
-  },
-  [SET_CLIMBINGWALLS](state, {climbingwalls}) {
-    state.climbingwalls = climbingwalls.reduce(
-      (acc, climbingwall) => {
-        acc[climbingwall.id] = climbingwall;
-        return acc;
-      }, {}
-    )
-  },
-  [SET_CLIMBINGWALLS_SHORT](state, {climbingwalls}) {
-    state.climbingwalls_short = climbingwalls.reduce(
-      (acc, climbingwall) => {
-        acc[climbingwall.id] = climbingwall;
-        return acc;
-      }, {}
-    )
-  },
-  [SET_CLIMBINGWALLS_ROUTES](state, {routes}) {
-    if (state.current_climbingwall != 0 && routes) {
-      Vue.set(state.climbingwalls_routes, state.current_climbingwall, routes.reduce(
-        (acc, route) => {
-          acc[route.id] = route;
-          return acc;
-        }, {}
-      ))
-    }
-  },
-  [SET_CURRENT_CLIMBINGWALL](state, {id}) {
-    state.current_climbingwall = id;
-  },
-
-  [ADD_ROUTE](state, {route}) {
-    Vue.set(state.climbingwalls_routes[state.current_climbingwall], route.id, route)
-  },
-  */
 }
 
 const actions = {

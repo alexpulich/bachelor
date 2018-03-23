@@ -49,6 +49,7 @@ class ClimbingWallViewSet(viewsets.ModelViewSet):
     queryset = models.ClimbingWall.objects.all()
     serializer_class = climbingwalls_serializers.ClimbingWallSerializer
 
+
     @detail_route(methods=['get'],)
     def routes(self, request, pk=None):
         climbing_wall = self.get_object()  # retrieve an object by pk provided
@@ -111,3 +112,8 @@ class TrainingDayRoutesViewSet(viewsets.ModelViewSet):
     """
     queryset = models.TrainingDayRoute.objects.all()
     serializer_class = trainings_serializers.TrainingDayRouteSerializer
+
+
+class ClimbingKindViewSet(viewsets.ModelViewSet):
+    queryset = models.ClimbingKind.objects.all()
+    serializer_class = climbingwalls_serializers.ClimbingKindSerializer

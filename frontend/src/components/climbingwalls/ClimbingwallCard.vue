@@ -1,5 +1,5 @@
 <template>
-  <div class="shadow bg-white p-4 border rounded">
+  <div class="shadow bg-white p-4 border rounded" v-if="climbingwall">
     <div class="text-center">
       <h2 v-text="climbingwall.name"></h2>
       <b-img fluid :src="climbingwall.logo" class="mb-3 logo"/>
@@ -7,7 +7,8 @@
     <dl class="row">
       <dt v-if="climbingwall.kinds.length" class="col-sm-4 text-right">Дисциплины:</dt>
       <dd v-if="climbingwall.kinds.length" class="col-sm-8">
-        <span v-for="kind in climbingwall.kinds" class="badge badge-pill badge-primary mr-1" v-text="kind.name"></span>
+        <span v-for="kind in climbingwall.kinds" class="badge badge-pill badge-primary mr-1"
+              v-text="kinds[kind].name"></span>
       </dd>
       <dt v-if="climbingwall.website" class="col-sm-4 text-right">Сайт:</dt>
       <dd v-if="climbingwall.website" class="col-sm-8">
@@ -24,9 +25,17 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     name: 'ClimbingwallCard',
     props: ['climbingwall'],
+    computed: {
+      ...mapGetters(['kinds'])
+    },
+    created () {
+      this.$store.dispatch('getKinds')
+    },
   }
 </script>
 

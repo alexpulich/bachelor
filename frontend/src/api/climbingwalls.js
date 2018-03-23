@@ -5,8 +5,12 @@ const SHORT = 'short/';
 
 export const Climbingwalls = {
   set(climbingwall) {
-    return HTTP.put(ENDPOINT + climbingwall.id + '/', climbingwall).then(response => {
+    return HTTP.patch(ENDPOINT + climbingwall.id + '/', climbingwall)
+    .then(response => {
       return response.data
+    })
+    .catch(error => {
+      return {errors: error.response.data}
     })
   },
 
@@ -23,7 +27,7 @@ export const Climbingwalls = {
   },
 
   item (climbingWallId) {
-    return HTTP.get(ENDPOINT + climbingWallId).then(response => {
+    return HTTP.get(ENDPOINT + climbingWallId + '/').then(response => {
       return response.data
     })
   },

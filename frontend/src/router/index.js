@@ -24,6 +24,11 @@ export default new Router({
       component: Climbingwall
     },
     {
+      path: '/climbingwall/:id/edit',
+      name: 'ClimbingwallEdit',
+      component: Climbingwall
+    },
+    {
       path: '/routes/',
       name: 'Routes',
       component: Routes

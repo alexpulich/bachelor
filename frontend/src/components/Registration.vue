@@ -69,7 +69,6 @@
           password1: '',
           password2: ''
         },
-        registered: false
       }
     },
     computed: mapGetters(['isLoggedIn', 'errors']),
