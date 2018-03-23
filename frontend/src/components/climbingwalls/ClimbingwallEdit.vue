@@ -105,7 +105,7 @@
 
   export default {
     name: 'ClimbingwallEdit',
-    props: ['climbingwall'],
+    props: ['climbingwall', 'kinds'],
     data () {
       return {
         form: {
@@ -133,9 +133,9 @@
       errors () {
         return this.$store.getters.errors
       },
-      kinds () {
-        return this.$store.getters.kinds
-      },
+//      kinds () {
+//        return this.$store.getters.kinds
+//      },
       options () {
         let tmp = []
         this.form.kinds.forEach(function (item, i, arr) {

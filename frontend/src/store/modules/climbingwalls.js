@@ -161,6 +161,9 @@ const actions = {
         }
       })
     } else {
+      if (climbingwall.logo) {
+        delete climbingwall['logo']
+      }
       Climbingwalls.set(climbingwall).then(response => {
       if (response.errors) {
         commit(FORM_FAIL, {'errors': response.errors})

@@ -6,7 +6,8 @@
     </b-col>
     <b-col sm="8">
       <climbingwall-edit v-if="this.$route.name == 'ClimbingwallEdit'"
-                         :climbingwall="climbingwall">
+                         :climbingwall="climbingwall"
+                          :kinds="kinds">
       </climbingwall-edit>
       <climbingwall-description v-else
                                 :climbingwall="climbingwall"
@@ -37,7 +38,13 @@
         }
         return this.$store.getters.climbingwall_routes(this.$route.params.id)
       },
+      kinds () {
+        return this.$store.getters.kinds
+      },
     },
+    created() {
+      this.$store.dispatch('getKinds')
+    }
   }
 </script>
 
