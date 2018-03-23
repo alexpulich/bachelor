@@ -81,7 +81,7 @@ class ClimbingWall(TimeStampedModel):
 
 
 class Route(TimeStampedModel):
-    climbing_wall = models.ForeignKey(
+    climbingwall = models.ForeignKey(
         ClimbingWall,
         related_name='routes',
         on_delete=models.SET_NULL,
