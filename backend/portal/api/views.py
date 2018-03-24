@@ -78,7 +78,7 @@ class RouteViewSet(viewsets.ModelViewSet):
     @detail_route(methods=['get'], )
     def pictures(self, request, pk=None):
         route = self.get_object()  # retrieve an object by pk provided
-        pictures = models.RoutePicture.objects.filter(route=route)
+        pictures = models.RoutePicture.objects.filter(route=route, active=True)
         pictures_json = routes_serializers.RoutePictureSerializer(pictures, many=True, context={'request': request})
         return Response(pictures_json.data)
 
@@ -95,6 +95,14 @@ class RoutePictureViewSet(viewsets.ModelViewSet):
     """
     queryset = models.RoutePicture.objects.all()
     serializer_class = routes_serializers.RoutePictureSerializer
+
+
+class ClimbingwallPictureViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows route pictures to be viewed or edited.
+    """
+    queryset = models.ClimbingwallPicture.objects.all()
+    serializer_class = climbingwalls_serializers.ClimbingwallPictureSerializer
 
 
 class TrainingDayViewSet(viewsets.ModelViewSet):

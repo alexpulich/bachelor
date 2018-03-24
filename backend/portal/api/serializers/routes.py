@@ -2,13 +2,18 @@ from rest_framework import serializers
 
 from portal import models
 from portal.api.serializers import users, climbingwalls
+from .utils import Base64ImageField
 
 
 class RoutePictureSerializer(serializers.ModelSerializer):
     """Full route's picture serializer"""
+    image = Base64ImageField(
+        max_length=None, use_url=True,
+    )
+
     class Meta:
         model = models.RoutePicture
-        fields = ('id', 'route', 'image')
+        fields = ('id', 'route', 'image', 'active')
 
 
 class RoutePictureShortSerializer(serializers.ModelSerializer):

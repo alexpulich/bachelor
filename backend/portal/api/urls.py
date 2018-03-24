@@ -2,7 +2,7 @@ from rest_framework_jwt.views import ObtainJSONWebToken
 from django.conf.urls import url, include
 
 from rest_framework import routers
-from .views import UserViewSet, ClimbingWallViewSet, \
+from .views import UserViewSet, ClimbingWallViewSet, ClimbingwallPictureViewSet, \
     RouteViewSet, RoutePictureViewSet, TrainingDayViewSet, \
     TrainingDayRoutesViewSet, RegisterViewCustom, \
     ClimbingKindViewSet  # , LoginViewCustom
@@ -13,6 +13,7 @@ router.register(r'users', UserViewSet)
 router.register(r'climbingwalls', ClimbingWallViewSet)
 router.register(r'routes', RouteViewSet)
 router.register(r'routepictures', RoutePictureViewSet)
+router.register(r'climbingwallpictures', ClimbingwallPictureViewSet)
 router.register(r'trainingdays', TrainingDayViewSet)
 router.register(r'trainingdaysroutes', TrainingDayRoutesViewSet)
 router.register(r'climbingkinds', ClimbingKindViewSet)

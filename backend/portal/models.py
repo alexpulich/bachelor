@@ -113,12 +113,23 @@ class Route(TimeStampedModel):
 
 
 class RoutePicture(TimeStampedModel):
-    image = models.ImageField(null=True, upload_to='media/climbingwalls/')
+    image = models.ImageField(null=True, upload_to='media/routes/')
     route = models.ForeignKey(
         Route,
         related_name='pictures',
         on_delete=models.CASCADE
     )
+    active = models.BooleanField(default=True)
+
+
+class ClimbingwallPicture(TimeStampedModel):
+    image = models.ImageField(null=True, upload_to='media/climbingwalls/')
+    climbingwall = models.ForeignKey(
+        ClimbingWall,
+        related_name='pictures',
+        on_delete=models.CASCADE
+    )
+    active = models.BooleanField(default=True)
 
 
 class TrainingDay(TimeStampedModel):

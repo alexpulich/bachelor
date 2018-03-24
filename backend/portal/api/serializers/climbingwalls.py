@@ -29,7 +29,7 @@ class ClimbingWallSerializer(serializers.ModelSerializer):
         model = models.ClimbingWall
         # TODO добавить kinds
         fields = ('id', 'name', 'logo', 'description',
-                  'address', 'website', 'kinds',
+                  'address', 'website', 'kinds', 'pictures',
                   'contacts', 'networks', 'open_time', 'routes')
 
 
@@ -49,3 +49,14 @@ class ClimbingwallNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ClimbingWall
         fields = ('id', 'name')
+
+
+class ClimbingwallPictureSerializer(serializers.ModelSerializer):
+    """Full route's picture serializer"""
+    image = Base64ImageField(
+        max_length=None, use_url=True,
+    )
+
+    class Meta:
+        model = models.ClimbingwallPicture
+        fields = ('id', 'climbingwall', 'image', 'active')
