@@ -13,10 +13,18 @@
     </h2>
     <div>
       <p v-text="route.description"></p>
-      <h2>Фотографии</h2>
+      <h2>
+        <small>
+          <router-link :to="{ name: 'RouteEditPics', params: { id: route.id }}">
+            <i class="fa fa-edit"></i>
+          </router-link>
+        </small>
+        Фотографии
+      </h2>
       <slider-gallery v-if="images.length" :images="images"></slider-gallery>
       <div class="alert alert-primary" v-else>
-        Фотографий пока нет :(
+        Фотографий пока нет :( Вы можете добавить их
+        <router-link :to="{ name: 'RouteEditPics', params: { id: route.id }}">здесь</router-link>
       </div>
     </div>
   </div>
@@ -26,22 +34,23 @@
 
   import SliderGallery from '../blocks/SliderGallery.vue'
   import RouteEdit from './RouteEdit.vue'
-  import {mapGetters} from 'vuex'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'RouteDescription',
     components: {SliderGallery, RouteEdit},
     props: ['route', 'pictures'],
-    data() {
+    data () {
       return {
         index: null,
       }
     },
     computed: {
-      images() {
-        return Object.values(this.pictures.reduce((acc, pic, index) => ({...acc, [index]: pic.image}), {}))
+      images () {
+        return (this.pictures) ? Object.values(
+          this.pictures.reduce((acc, pic, index) => ({...acc, [index]: pic.image}), {})) : []
       },
-      ...mapGetters('auth',['isLoggedIn']),
+      ...mapGetters('auth', ['isLoggedIn']),
     },
   }
 </script>

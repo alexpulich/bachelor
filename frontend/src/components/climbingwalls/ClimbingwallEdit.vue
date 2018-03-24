@@ -88,6 +88,7 @@
         </div>
       </template>
       <div class="form-group">
+        <router-link class="btn btn-primary" :to="{ name: 'ClimbingwallEditPics', params: { id: climbingwall.id }}">Фотографии</router-link>
         <button class="btn btn-success" @click.prevent="submitForm">Сохранить</button>
       </div>
       <div class="alert alert-success" v-if="isStatusOk">

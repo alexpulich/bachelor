@@ -8,6 +8,19 @@
       О скалодроме
     </h2>
     <p v-text="climbingwall.description"></p>
+    <h2>
+      <small>
+        <router-link :to="{ name: 'ClimbingwallEditPics', params: { id: climbingwall.id }}">
+          <i class="fa fa-edit"></i>
+        </router-link>
+      </small>
+      Фотографии
+    </h2>
+    <slider-gallery v-if="images.length" :images="images"></slider-gallery>
+    <div class="alert alert-primary" v-else>
+      Фотографий пока нет :( Вы можете добавить их
+      <router-link :to="{ name: 'ClimbingwallEditPics', params: { id: climbingwall.id }}">здесь</router-link>
+    </div>
     <routes-table :routes="routes" :climbingwall="climbingwall" :kinds="kinds">
     </routes-table>
     <hr>
@@ -22,13 +35,18 @@
   import RoutesTable from './RoutesTable.vue'
   import AddRoute from './AddRoute.vue'
   import ClimbingwallEdit from './ClimbingwallEdit.vue'
+  import SliderGallery from '../blocks/SliderGallery.vue'
 
   export default {
     name: 'ClimbingwallDescription',
-    components: {RoutesTable, AddRoute, ClimbingwallEdit},
-    props: ['climbingwall', 'routes', 'VueGallery', 'kinds'],
+    components: {RoutesTable, AddRoute, ClimbingwallEdit, SliderGallery},
+    props: ['climbingwall', 'routes', 'VueGallery', 'kinds', 'pictures'],
     computed: {
-      ...mapGetters('auth',['isLoggedIn']),
+      images () {
+        return (this.pictures) ? Object.values(
+          this.pictures.reduce((acc, pic, index) => ({...acc, [index]: pic.image}), {})) : []
+      },
+      ...mapGetters('auth', ['isLoggedIn']),
     },
   }
 </script>

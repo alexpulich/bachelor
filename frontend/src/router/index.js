@@ -29,6 +29,11 @@ export default new Router({
       component: Climbingwall
     },
     {
+      path: '/climbingwall/:id/edit/pics',
+      name: 'ClimbingwallEditPics',
+      component: Climbingwall
+    },
+    {
       path: '/routes/',
       name: 'Routes',
       component: Routes

@@ -9,6 +9,7 @@ const SET_CLIMBINGWALLS = 'SET_CLIMBINGWALLS'
 const SET_CLIMBINGWALLS_SHORT = 'SET_CLIMBINGWALLS_SHORT'
 const SET_CLIMBINGWALLS_ROUTES = 'SET_CLIMBINGWALLS_ROUTES'
 const SET_CURRENT_CLIMBINGWALL = 'SET_CURRENT_CLIMBINGWALL'
+const SET_CLIMBINGWALL_PICTURES = 'SET_CLIMBINGWALL_PICTURES'
 
 const FORM_FAIL = 'FORM_FAIL'
 const FORM_SUCCESS = 'FORM_SUCCESS'
@@ -27,6 +28,7 @@ const state = {
   climbingwalls_short: {},
   climbingwalls_routes: {},
   current_climbingwall: 0,
+  pictures: {},
 
   kinds: {},
 
@@ -43,6 +45,9 @@ const getters = {
   climbingwall_routes: (state) => (id) => {
     return state.climbingwalls_routes[id]
   },
+  pictures: state => (id) => {
+    return state.pictures[id]
+  },
   kinds: state => state.kinds,
   errors: state => state.errors,
   status: state => state.status,
@@ -53,14 +58,14 @@ const mutations = {
   [SET_CLIMBINGWALL] (state, {climbingwall}) {
     Vue.set(state.climbingwalls, climbingwall.id, climbingwall)
   },
+  [SET_CLIMBINGWALL_PICTURES] (state, {pictures}) {
+    Vue.set(state.pictures, pictures[0].route, pictures)
+  },
   //Сохранить скалодромЫ в стейт
-  [SET_CLIMBINGWALLS] (state, {climbingwalls}) {
-    state.climbingwalls = climbingwalls.reduce(
-      (acc, climbingwall) => {
-        acc[climbingwall.id] = climbingwall
-        return acc
-      }, {},
-    )
+  [SET_CLIMBINGWALL_PICTURES] (state, {pictures}) {
+    if (pictures.length) {
+      Vue.set(state.pictures, pictures[0].climbingwall, pictures)
+    }
   },
   //Сохранить лист короткой инфы скалодромов в стейт
   [SET_CLIMBINGWALLS_SHORT] (state, {climbingwalls}) {
@@ -165,13 +170,13 @@ const actions = {
         delete climbingwall['logo']
       }
       Climbingwalls.set(climbingwall).then(response => {
-      if (response.errors) {
-        commit(FORM_FAIL, {'errors': response.errors})
-      } else {
-        commit(FORM_SUCCESS)
-        dispatch('getClimbingwall', climbingwall.id)
-      }
-    })
+        if (response.errors) {
+          commit(FORM_FAIL, {'errors': response.errors})
+        } else {
+          commit(FORM_SUCCESS)
+          dispatch('getClimbingwall', climbingwall.id)
+        }
+      })
     }
   },
   addRoute ({commit}, route) {
@@ -182,6 +187,33 @@ const actions = {
   getKinds ({commit}) {
     Misc.kinds().then(kinds => {
       commit(SET_KINDS, {kinds})
+    })
+  },
+  getPictures ({commit}, id) {
+    Climbingwalls.pictures(id).then(pictures => {
+      commit(SET_CLIMBINGWALL_PICTURES, {pictures})
+    })
+  },
+  uploadImage ({commit, dispatch}, image) {
+    commit(RESET_ERRORS)
+    Climbingwalls.uploadPicture(image).then(response => {
+      if (response.errors) {
+        commit(FORM_FAIL, {'errors': response.errors})
+      } else {
+        commit(FORM_SUCCESS)
+        dispatch('getPictures', image.climbingwall)
+      }
+    })
+  },
+  deleteImage ({commit, dispatch}, image) {
+    commit(RESET_ERRORS)
+    Climbingwalls.deletePicture({id: image.id, active: false}).then(response => {
+      if (response.errors) {
+        commit(FORM_FAIL, {'errors': response.errors})
+      } else {
+        commit(FORM_SUCCESS)
+        dispatch('getPictures', image.climbingwall)
+      }
     })
   },
 }

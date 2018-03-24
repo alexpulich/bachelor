@@ -1,6 +1,7 @@
 import { HTTP } from './common'
 
 const ENDPOINT = '/climbingwalls/';
+const PICTURES_ENDPOINT = '/climbingwallpictures/'
 const SHORT = 'short/';
 
 export const Climbingwalls = {
@@ -35,6 +36,28 @@ export const Climbingwalls = {
   routes(climbingWallId) {
     return HTTP.get(ENDPOINT + climbingWallId + '/routes/').then(response => {
       return response.data
+    })
+  },
+
+  pictures(climbingwallId) {
+    return HTTP.get(ENDPOINT + climbingwallId + '/pictures/').then(response => {
+      return response.data
+    })
+  },
+
+  uploadPicture(picture) {
+    return HTTP.post(PICTURES_ENDPOINT, picture).then(response => {
+      return response.data
+    }).catch(error => {
+      return {errors: error.response.data}
+    })
+  },
+
+  deletePicture(picture) {
+    return HTTP.patch(PICTURES_ENDPOINT + picture.id + '/', picture).then(response => {
+      return response.data
+    }).catch(error => {
+      return {errors: error.response.data}
     })
   }
 }
