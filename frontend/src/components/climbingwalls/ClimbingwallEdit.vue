@@ -133,9 +133,6 @@
       errors () {
         return this.$store.getters.errors
       },
-//      kinds () {
-//        return this.$store.getters.kinds
-//      },
       options () {
         let tmp = []
         this.form.kinds.forEach(function (item, i, arr) {
@@ -149,7 +146,7 @@
     },
     methods: {
       submitForm () {
-        this.$store.dispatch('setClimbingwall', this.form)
+        this.$store.dispatch('setClimbingwall', Object.assign({}, this.form))
       },
       processFile (event) {
         var input = event.target
