@@ -20,9 +20,9 @@ class RoutePictureShortSerializer(serializers.ModelSerializer):
 
 class RouteSerializer(serializers.ModelSerializer):
     # TODO: temporary read_only
-    pictures = RoutePictureShortSerializer(many=True, read_only=True)
-    author = users.ShortUserSerializer()
-    kind = climbingwalls.ClimbingKindSerializer()
+    # pictures = RoutePictureShortSerializer(many=True, read_only=True)
+    # author = users.ShortUserSerializer()
+    # kind = climbingwalls.ClimbingKindSerializer()
 
     class Meta:
         model = models.Route
