@@ -43,18 +43,18 @@
         },
       }
     },
-    computed: mapGetters(['isLoggedIn', 'errors']),
+    computed: mapGetters('auth', ['isLoggedIn', 'errors']),
 
     methods: {
       onSubmit() {
-        this.$store.dispatch("login", this.form)
+        this.$store.dispatch("auth/login", this.form)
       }
     },
     created() {
       if (this.isLoggedIn) {
         this.$router.push("/")
       }
-      this.$store.dispatch('emptyErrors');
+      this.$store.dispatch('auth/emptyErrors');
     }
   }
 </script>

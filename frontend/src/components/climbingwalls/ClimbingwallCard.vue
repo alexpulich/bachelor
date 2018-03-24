@@ -31,10 +31,10 @@
     name: 'ClimbingwallCard',
     props: ['climbingwall'],
     computed: {
-      ...mapGetters(['kinds'])
+      ...mapGetters('climbingwalls', ['kinds'])
     },
     created () {
-      this.$store.dispatch('getKinds')
+      this.$store.dispatch('climbingwalls/getKinds')
     },
   }
 </script>

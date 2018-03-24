@@ -24,10 +24,10 @@
   export default {
     name: 'AppHeader',
     props: ['brandTitle', 'heading', 'content'],
-    computed: mapGetters(['isLoggedIn']),
+    computed: mapGetters('auth', ['isLoggedIn']),
     methods: {
       logout() {
-        this.$store.dispatch("logout").then(() => {
+        this.$store.dispatch("auth/logout").then(() => {
         });
       }
     }

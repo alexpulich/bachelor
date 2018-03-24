@@ -4,8 +4,12 @@ const ENDPOINT = '/routes/'
 
 export const Routes = {
   set(route) {
-    return HTTP.put(ENDPOINT + route.id + '/', route).then(response => {
+    return HTTP.patch(ENDPOINT + route.id + '/', route)
+    .then(response => {
       return response.data
+    })
+    .catch(error => {
+      return {errors: error.response.data}
     })
   },
 

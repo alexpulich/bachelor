@@ -11,7 +11,8 @@
       </climbingwall-edit>
       <climbingwall-description v-else
                                 :climbingwall="climbingwall"
-                                :routes="routes">
+                                :routes="routes"
+                                :kinds="kinds">
       </climbingwall-description>
     </b-col>
   </b-row>
@@ -21,29 +22,28 @@
   import ClimbingwallCard from './climbingwalls/ClimbingwallCard.vue'
   import ClimbingwallDescription from './climbingwalls/ClimbingwallDescription.vue'
   import ClimbingwallEdit from './climbingwalls/ClimbingwallEdit.vue'
+  import {mapGetters} from 'vuex'
 
   export default {
     name: 'Climbingwall',
     components: {ClimbingwallCard, ClimbingwallDescription, ClimbingwallEdit},
     computed: {
       climbingwall () {
-        if (!(this.$store.getters.climbingwall(this.$route.params.id))) {
-          this.$store.dispatch('getClimbingwall', this.$route.params.id)
+        if (!(this.$store.getters['climbingwalls/climbingwall'](this.$route.params.id))) {
+          this.$store.dispatch('climbingwalls/getClimbingwall', this.$route.params.id)
         }
-        return this.$store.getters.climbingwall(this.$route.params.id)
+        return this.$store.getters['climbingwalls/climbingwall'](this.$route.params.id)
       },
       routes () {
-        if (!(this.$store.getters.climbingwall_routes(this.$route.params.id))) {
-          this.$store.dispatch('getClimbingwallsRoutes', this.$route.params.id)
+        if (!(this.$store.getters['climbingwalls/climbingwall_routes'](this.$route.params.id))) {
+          this.$store.dispatch('climbingwalls/getClimbingwallsRoutes', this.$route.params.id)
         }
-        return this.$store.getters.climbingwall_routes(this.$route.params.id)
+        return this.$store.getters['climbingwalls/climbingwall_routes'](this.$route.params.id)
       },
-      kinds () {
-        return this.$store.getters.kinds
-      },
+      ...mapGetters('climbingwalls', ['kinds'])
     },
     created() {
-      this.$store.dispatch('getKinds')
+      this.$store.dispatch('climbingwalls/getKinds')
     }
   }
 </script>

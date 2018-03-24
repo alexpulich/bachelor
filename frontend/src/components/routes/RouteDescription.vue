@@ -1,15 +1,23 @@
 <template>
   <div class="shadow bg-white p-4 border rounded">
     <h2>
-      <small><a href="#" v-on:click.prevent="toggleIsEditding"><i class="fa"
-                                                                  :class="{'fa-edit':!isEditing, 'fa-arrow-left': isEditing}"></i></a>
+      <small>
+        <router-link :to="{ name: 'Climbingwall', params: { id: route.climbingwall }}">
+          <i class="fa fa-arrow-left"></i>
+        </router-link>
+        <router-link :to="{ name: 'RouteEdit', params: { id: route.id }}">
+          <i class="fa fa-edit"></i>
+        </router-link>
       </small>
-      {{ title }}
+      Описание
     </h2>
-    <route-edit v-if="isEditing" :route="route"></route-edit>
-    <div v-else>
+    <div>
       <p v-text="route.description"></p>
-      <slider-gallery :images="images"></slider-gallery>
+      <h2>Фотографии</h2>
+      <slider-gallery v-if="images.length" :images="images"></slider-gallery>
+      <div class="alert alert-primary" v-else>
+        Фотографий пока нет :(
+      </div>
     </div>
   </div>
 </template>
@@ -27,23 +35,14 @@
     data() {
       return {
         index: null,
-        isEditing: false,
       }
     },
     computed: {
       images() {
         return Object.values(this.route.pictures.reduce((acc, pic, index) => ({...acc, [index]: pic.image}), {}))
       },
-      title() {
-        return this.isEditing ? 'Редактирование трассы "' + this.route.name + '"' : 'Описание';
-      },
-      ...mapGetters(['isLoggedIn']),
+      ...mapGetters('auth',['isLoggedIn']),
     },
-    methods: {
-      toggleIsEditding() {
-        this.isEditing = !this.isEditing;
-      }
-    }
   }
 </script>
 

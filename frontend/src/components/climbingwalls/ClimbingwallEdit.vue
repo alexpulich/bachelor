@@ -125,13 +125,13 @@
     },
     computed: {
       isStatusOk () {
-        return this.$store.getters.status === 'ok'
+        return this.$store.getters['climbingwalls/status']=== 'ok'
       },
       isStatusError () {
-        return this.$store.getters.status === 'error'
+        return this.$store.getters['climbingwalls/status'] === 'error'
       },
       errors () {
-        return this.$store.getters.errors
+        return this.$store.getters['climbingwalls/errors']
       },
       options () {
         let tmp = []
@@ -146,7 +146,7 @@
     },
     methods: {
       submitForm () {
-        this.$store.dispatch('setClimbingwall', Object.assign({}, this.form))
+        this.$store.dispatch('climbingwalls/setClimbingwall', Object.assign({}, this.form))
       },
       processFile (event) {
         var input = event.target
@@ -168,8 +168,8 @@
       },
     },
     created () {
-      this.$store.commit('RESET_ERRORS')
-      this.$store.dispatch('getKinds')
+      this.$store.commit('climbingwalls/RESET_ERRORS')
+      this.$store.dispatch('climbingwalls/getKinds')
     },
   }
 </script>

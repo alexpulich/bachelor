@@ -5,9 +5,20 @@ import Vue from 'vue'
 const SET_ROUTE = 'SET_ROUTE'
 const SET_ROUTE_PICTURES = 'SET_ROUTE_PICTURES'
 
+const FORM_FAIL = 'FORM_FAIL'
+const FORM_SUCCESS = 'FORM_SUCCESS'
+const RESET_ERRORS = 'RESET_ERRORS'
+
+const OK_STATUS = 'ok'
+const ERROR_STATUS = 'error'
+const NONE_STATUS = 'none'
+
 const state = {
   routes: {},
-  pictures: {}
+  pictures: {},
+
+  errors: [],
+  status: NONE_STATUS
 }
 
 const getters = {
@@ -16,7 +27,9 @@ const getters = {
   },
   routePictures: (state) => (id) => {
     return state.pictures[id]
-  }
+  },
+  errors: state => state.errors,
+  status: state => state.status,
 }
 
 const mutations = {
@@ -25,7 +38,20 @@ const mutations = {
   },
   [SET_ROUTE_PICTURES] (state, {picture}) {
     Vue.set(state.pictures, picture.route, picture);
-  }
+  },
+
+  [FORM_FAIL] (state, {errors}) {
+    state.errors = errors
+    state.status = ERROR_STATUS
+  },
+  [FORM_SUCCESS] (state) {
+    state.errors = []
+    state.status = OK_STATUS
+  },
+  [RESET_ERRORS] (state) {
+    state.errors = []
+    state.status = NONE_STATUS
+  },
 }
 
 const actions = {
@@ -42,9 +68,18 @@ const actions = {
         console.log(pictures);
       })
   },
-  setRoute({commit}, route) {
+  setRoute({commit, dispatch}, route) {
+    commit(RESET_ERRORS)
     Routes.set(route)
-      .then(response => {})
+      .then(response => {
+        console.log(response);
+        if (response.errors) {
+          commit(FORM_FAIL, {'errors': response.errors})
+        } else {
+          commit(FORM_SUCCESS)
+          dispatch('getRoute', route.id)
+        }
+    })
   },
   /*
   getClimbingwalls({commit}) {
@@ -83,6 +118,7 @@ const actions = {
 }
 
 export default {
+  namespaced: true,
   state,
   getters,
   actions,

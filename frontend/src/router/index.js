@@ -38,11 +38,11 @@ export default new Router({
       name: 'Route',
       component: Route
     },
-    // {
-    //   path: '/routes/:id/edit',
-    //   name: 'RouteEdit',
-    //   component: RouteEdit
-    // },
+    {
+      path: '/routes/:id/edit',
+      name: 'RouteEdit',
+      component: Route
+    },
     {
       path: '/login/',
       name: 'Login',

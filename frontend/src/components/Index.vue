@@ -32,10 +32,10 @@
   export default {
     name: 'Index',
 
-    computed: mapGetters(['climbingwalls_short']),
+    computed: mapGetters('climbingwalls', ['climbingwalls_short']),
 
     beforeMount() {
-      this.$store.dispatch('getClimbingwallsShort')
+      this.$store.dispatch('climbingwalls/getClimbingwallsShort')
     }
 
   }

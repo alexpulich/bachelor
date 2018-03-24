@@ -8,10 +8,10 @@
       О скалодроме
     </h2>
     <p v-text="climbingwall.description"></p>
-    <routes-table :routes="routes" :climbingwall="climbingwall">
+    <routes-table :routes="routes" :climbingwall="climbingwall" :kinds="kinds">
     </routes-table>
     <hr>
-    <add-route v-if="isLoggedIn"></add-route>
+    <add-route v-if="isLoggedIn" :kinds="kinds"></add-route>
   </div>
   <!--</div>-->
 </template>
@@ -26,9 +26,9 @@
   export default {
     name: 'ClimbingwallDescription',
     components: {RoutesTable, AddRoute, ClimbingwallEdit},
-    props: ['climbingwall', 'routes', 'VueGallery'],
+    props: ['climbingwall', 'routes', 'VueGallery', 'kinds'],
     computed: {
-      ...mapGetters(['isLoggedIn']),
+      ...mapGetters('auth',['isLoggedIn']),
     },
   }
 </script>
