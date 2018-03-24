@@ -1,4 +1,4 @@
-import {Routes} from '../../api/routes'
+import { Routes } from '../../api/routes'
 
 import Vue from 'vue'
 
@@ -18,14 +18,14 @@ const state = {
   pictures: {},
 
   errors: [],
-  status: NONE_STATUS
+  status: NONE_STATUS,
 }
 
 const getters = {
   route: (state) => (id) => {
     return state.routes[id]
   },
-  routePictures: (state) => (id) => {
+  pictures: (state) => (id) => {
     return state.pictures[id]
   },
   errors: state => state.errors,
@@ -34,10 +34,10 @@ const getters = {
 
 const mutations = {
   [SET_ROUTE] (state, {route}) {
-    Vue.set(state.routes, route.id, route);
+    Vue.set(state.routes, route.id, route)
   },
-  [SET_ROUTE_PICTURES] (state, {picture}) {
-    Vue.set(state.pictures, picture.route, picture);
+  [SET_ROUTE_PICTURES] (state, {pictures}) {
+    Vue.set(state.pictures, pictures[0].route, pictures)
   },
 
   [FORM_FAIL] (state, {errors}) {
@@ -55,32 +55,50 @@ const mutations = {
 }
 
 const actions = {
-  getRoute({commit}, id) {
-    Routes.item(id)
-      .then(route => {
-        commit(SET_ROUTE, {route})
-      })
-  },
-  getPictures({commit}, id) {
-    Routes.pictures(id)
-      .then(pictures => {
-        commit(SET_ROUTE_PICTURES, {pictures});
-        console.log(pictures);
-      })
-  },
-  setRoute({commit, dispatch}, route) {
-    commit(RESET_ERRORS)
-    Routes.set(route)
-      .then(response => {
-        console.log(response);
-        if (response.errors) {
-          commit(FORM_FAIL, {'errors': response.errors})
-        } else {
-          commit(FORM_SUCCESS)
-          dispatch('getRoute', route.id)
-        }
+  getRoute ({commit}, id) {
+    Routes.item(id).then(route => {
+      commit(SET_ROUTE, {route})
     })
   },
+  getPictures ({commit}, id) {
+    Routes.pictures(id).then(pictures => {
+      commit(SET_ROUTE_PICTURES, {pictures})
+    })
+  },
+  setRoute ({commit, dispatch}, route) {
+    commit(RESET_ERRORS)
+    Routes.set(route).then(response => {
+      if (response.errors) {
+        commit(FORM_FAIL, {'errors': response.errors})
+      } else {
+        commit(FORM_SUCCESS)
+        dispatch('getRoute', route.id)
+      }
+    })
+  },
+  uploadImage ({commit, dispatch}, image) {
+    commit(RESET_ERRORS)
+    Routes.uploadPicture(image).then(response => {
+      if (response.errors) {
+        commit(FORM_FAIL, {'errors': response.errors})
+      } else {
+        commit(FORM_SUCCESS)
+        dispatch('getPictures', image.route)
+      }
+    })
+  },
+  deleteImage ({commit, dispatch}, image) {
+    commit(RESET_ERRORS)
+    Routes.deletePicture({id: image.id, active: false}).then(response => {
+      if (response.errors) {
+        commit(FORM_FAIL, {'errors': response.errors})
+      } else {
+        commit(FORM_SUCCESS)
+        dispatch('getPictures', image.route)
+      }
+    })
+  },
+
   /*
   getClimbingwalls({commit}) {
     Climbingwalls.list()
@@ -122,5 +140,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 }

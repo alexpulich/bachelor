@@ -1,6 +1,7 @@
 import { HTTP } from './common'
 
 const ENDPOINT = '/routes/'
+const PICTURES_ENDPOINT = '/routepictures/'
 
 export const Routes = {
   set(route) {
@@ -42,6 +43,22 @@ export const Routes = {
       return response.data
     }).catch(error => {
       return error.response.data
+    })
+  },
+
+  uploadPicture(picture) {
+    return HTTP.post(PICTURES_ENDPOINT, picture).then(response => {
+      return response.data
+    }).catch(error => {
+      return {errors: error.response.data}
+    })
+  },
+
+  deletePicture(picture) {
+    return HTTP.patch(PICTURES_ENDPOINT + picture.id + '/', picture).then(response => {
+      return response.data
+    }).catch(error => {
+      return {errors: error.response.data}
     })
   }
 }

@@ -87,6 +87,7 @@
         </div>
       </template>
       <div class="form-group">
+        <router-link class="btn btn-primary" :to="{ name: 'RouteEditPics', params: { id: route.id }}">Фотографии</router-link>
         <button class="btn btn-success" v-on:click.prevent="submitForm">Сохранить</button>
       </div>
       <div class="alert alert-success" v-if="isStatusOk">
@@ -124,7 +125,7 @@
       },
       errors () {
         return this.$store.getters['routes/errors']
-      }
+      },
     },
     methods: {
       submitForm () {

@@ -44,6 +44,11 @@ export default new Router({
       component: Route
     },
     {
+      path: '/routes/:id/edit/pics',
+      name: 'RouteEditPics',
+      component: Route
+    },
+    {
       path: '/login/',
       name: 'Login',
       component: Login

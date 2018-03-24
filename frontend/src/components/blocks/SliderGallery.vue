@@ -1,7 +1,7 @@
 <template>
   <div>
     <gallery v-if="images" :images="images" :index="index" @close="index = null"></gallery>
-    <carousel>
+    <carousel :per-page="6">
       <slide v-for="image, imageIndex in images">
         <div class="thumbnail" @click="index = imageIndex">
           <img class="portrait" :src="image" alt="">

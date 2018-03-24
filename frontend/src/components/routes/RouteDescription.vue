@@ -31,7 +31,7 @@
   export default {
     name: 'RouteDescription',
     components: {SliderGallery, RouteEdit},
-    props: ['route'],
+    props: ['route', 'pictures'],
     data() {
       return {
         index: null,
@@ -39,7 +39,7 @@
     },
     computed: {
       images() {
-        return Object.values(this.route.pictures.reduce((acc, pic, index) => ({...acc, [index]: pic.image}), {}))
+        return Object.values(this.pictures.reduce((acc, pic, index) => ({...acc, [index]: pic.image}), {}))
       },
       ...mapGetters('auth',['isLoggedIn']),
     },
