@@ -17,8 +17,6 @@ from portal.api.serializers import trainings as trainings_serializers
 from portal.api.serializers import users as users_serializers
 
 
-
-
 # class LoginViewCustom(LoginView):
 #     authentication_classes = (TokenAuthentication,)
 
@@ -49,20 +47,26 @@ class ClimbingWallViewSet(viewsets.ModelViewSet):
     queryset = models.ClimbingWall.objects.all()
     serializer_class = climbingwalls_serializers.ClimbingWallSerializer
 
-
-    @detail_route(methods=['get'],)
+    @detail_route(methods=['get'], )
     def routes(self, request, pk=None):
         climbingwall = self.get_object()  # retrieve an object by pk provided
         routes = models.Route.objects.filter(climbingwall=climbingwall, active=True)
         routes_json = routes_serializers.RouteSerializer(routes, many=True, context={'request': request})
         return Response(routes_json.data)
 
-    @list_route(methods=['get'],)
+    @detail_route(methods=['get'], )
+    def pictures(self, request, pk=None):
+        climbingwall = self.get_object()  # retrieve an object by pk provided
+        pictures = models.ClimbingwallPicture.objects.filter(climbingwall=climbingwall, active=True)
+        pictures_json = climbingwalls_serializers.ClimbingwallPictureSerializer(pictures, many=True,
+                                                                                context={'request': request})
+        return Response(pictures_json.data)
+
+    @list_route(methods=['get'], )
     def short(self, request):
         queryset = models.ClimbingWall.objects.all()
         json = climbingwalls_serializers.ClimbingWallShortSerializer(queryset, many=True, context={'request': request})
         return Response(json.data)
-
 
 
 class RouteViewSet(viewsets.ModelViewSet):
@@ -111,6 +115,7 @@ class TrainingDayViewSet(viewsets.ModelViewSet):
     """
     queryset = models.TrainingDay.objects.all()
     serializer_class = trainings_serializers.TrainingDaySerializer
+
 
 class TrainingDayRoutesViewSet(viewsets.ModelViewSet):
     """
