@@ -35,27 +35,21 @@
     components: {ClimbingwallCard, ClimbingwallDescription, ClimbingwallEdit, ClimbingwallEditPics},
     computed: {
       climbingwall () {
-        if (!(this.$store.getters['climbingwalls/climbingwall'](this.$route.params.id))) {
-          this.$store.dispatch('climbingwalls/getClimbingwall', this.$route.params.id)
-        }
         return this.$store.getters['climbingwalls/climbingwall'](this.$route.params.id)
       },
       routes () {
-        if (!(this.$store.getters['climbingwalls/climbingwall_routes'](this.$route.params.id))) {
-          this.$store.dispatch('climbingwalls/getClimbingwallsRoutes', this.$route.params.id)
-        }
         return this.$store.getters['climbingwalls/climbingwall_routes'](this.$route.params.id)
       },
       pictures () {
-        if (!(this.$store.getters['climbingwalls/pictures'](this.$route.params.id))) {
-          this.$store.dispatch('climbingwalls/getPictures', this.$route.params.id)
-        }
         return this.$store.getters['climbingwalls/pictures'](this.$route.params.id)
       },
       ...mapGetters('climbingwalls', ['kinds'])
     },
     created() {
       this.$store.dispatch('climbingwalls/getKinds')
+      this.$store.dispatch('climbingwalls/getClimbingwall', this.$route.params.id)
+      this.$store.dispatch('climbingwalls/getClimbingwallsRoutes', this.$route.params.id)
+      this.$store.dispatch('climbingwalls/getPictures', this.$route.params.id)
     }
   }
 </script>

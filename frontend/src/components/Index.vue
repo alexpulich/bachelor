@@ -34,7 +34,7 @@
 
     computed: mapGetters('climbingwalls', ['climbingwalls_short']),
 
-    beforeMount() {
+    created() {
       this.$store.dispatch('climbingwalls/getClimbingwallsShort')
     }
 

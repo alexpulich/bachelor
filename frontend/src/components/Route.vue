@@ -27,23 +27,19 @@
     components: {RouteCard, RouteDescription, RouteEdit, RouteEditPics},
     computed: {
       route () {
-        if (!(this.$store.getters['routes/route'](this.$route.params.id))) {
-          this.$store.dispatch('routes/getRoute', this.$route.params.id)
-        }
         return this.$store.getters['routes/route'](this.$route.params.id)
       },
       kinds () {
         return this.$store.getters['climbingwalls/kinds']
       },
       pictures () {
-        if (!(this.$store.getters['routes/pictures'](this.$route.params.id))) {
-          this.$store.dispatch('routes/getPictures', this.$route.params.id)
-        }
         return this.$store.getters['routes/pictures'](this.$route.params.id)
       },
     },
     created () {
       this.$store.dispatch('climbingwalls/getKinds')
+      this.$store.dispatch('routes/getRoute', this.$route.params.id)
+      this.$store.dispatch('routes/getPictures', this.$route.params.id)
     },
   }
 </script>
