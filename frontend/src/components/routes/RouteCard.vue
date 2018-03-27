@@ -37,6 +37,10 @@
         return this.$store.getters['climbingwalls/climbingwalls_short']
       }
     },
+
+    created() {
+      this.$store.dispatch('climbingwalls/getClimbingwallsShort')
+    }
   }
 </script>
 
