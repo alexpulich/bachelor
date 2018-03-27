@@ -16,58 +16,67 @@ export default new Router({
     {
       path: '/',
       name: 'Index',
-      component: Index
+      component: Index,
     },
     {
       path: '/climbingwall/:id',
       name: 'Climbingwall',
-      component: Climbingwall
+      component: Climbingwall,
+      children: [
+        {
+          path: 'edit',
+          name: 'ClimbingwallEdit',
+          component: Climbingwall,
+          children: [
+            {
+              path: 'pics',
+              name: 'ClimbingwallEditPics',
+              component: Climbingwall,
+            },
+          ],
+        },
+      ],
     },
-    {
-      path: '/climbingwall/:id/edit',
-      name: 'ClimbingwallEdit',
-      component: Climbingwall
-    },
-    {
-      path: '/climbingwall/:id/edit/pics',
-      name: 'ClimbingwallEditPics',
-      component: Climbingwall
-    },
+
     {
       path: '/routes/',
       name: 'Routes',
-      component: Routes
+      component: Routes,
     },
     {
       path: '/routes/:id',
       name: 'Route',
-      component: Route
-    },
-    {
-      path: '/routes/:id/edit',
-      name: 'RouteEdit',
-      component: Route
-    },
-    {
-      path: '/routes/:id/edit/pics',
-      name: 'RouteEditPics',
-      component: Route
+      component: Route,
+      children: [
+        {
+          path: 'edit',
+          name: 'RouteEdit',
+          component: Route,
+          children: [
+            {
+              path: 'pics',
+              name: 'RouteEditPics',
+              component: Route,
+            },
+          ],
+        },
+      ],
     },
     {
       path: '/login/',
       name: 'Login',
-      component: Login
+      component: Login,
     },
     {
       path: '/registration/',
       name: 'Registration',
-      component: Registration
+      component: Registration,
     },
     {
       path: '/traininglog/',
       name: 'Traininglog',
-      component: Traininglog
-    }
+      component: Traininglog,
+    },
 
-  ]
+  ],
 })
