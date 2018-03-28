@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import detail_route, list_route
@@ -23,6 +23,15 @@ from portal.api.serializers import users as users_serializers
 
 class RegisterViewCustom(RegisterView):
     authentication_classes = (TokenAuthentication,)
+
+
+class ProfileViewSet(mixins.ListModelMixin,
+                     mixins.RetrieveModelMixin,
+                     mixins.UpdateModelMixin,
+                     viewsets.GenericViewSet):
+
+    queryset = models.Profile.objects.all()
+    serializer_class = users_serializers.ProfileSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
