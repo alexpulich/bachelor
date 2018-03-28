@@ -27,3 +27,13 @@ new Vue({
   components: { App },
   template: '<App/>',
 })
+
+router.beforeEach((to, from, next) => {
+  const authRequired = to.matched.some((route) => route.meta.auth)
+  const authed = store.state.auth.isLoggedIn
+  if (authRequired && !authed) {
+    next('/login?from=' + to.path)
+  } else {
+    next()
+  }
+})

@@ -27,6 +27,7 @@ export default new Router({
           path: 'edit',
           name: 'ClimbingwallEdit',
           component: Climbingwall,
+          meta: { auth: true },
           children: [
             {
               path: 'pics',

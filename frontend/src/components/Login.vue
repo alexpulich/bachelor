@@ -30,32 +30,37 @@
 </template>
 
 <script>
-  import {HTTP} from '../api/common';
-  import {mapGetters} from 'vuex'
+  import { HTTP } from '../api/common'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'Login',
-    data() {
+    data () {
       return {
         form: {
           email: '',
-          password: ''
+          password: '',
         },
       }
     },
-    computed: mapGetters('auth', ['isLoggedIn', 'errors']),
+    computed: {
+      ...mapGetters('auth', ['isLoggedIn', 'errors']),
+    },
 
     methods: {
-      onSubmit() {
-        this.$store.dispatch("auth/login", this.form)
-      }
+      onSubmit () {
+        this.$store.dispatch('auth/login', this.form)
+        if (this.$route.query.from) {
+          this.$router.push({path: this.from})
+        }
+      },
     },
-    created() {
+    created () {
       if (this.isLoggedIn) {
-        this.$router.push("/")
+        this.$router.push('/')
       }
-      this.$store.dispatch('auth/emptyErrors');
-    }
+      this.$store.dispatch('auth/emptyErrors')
+    },
   }
 </script>
 
