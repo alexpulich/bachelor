@@ -4,7 +4,8 @@
       <h1>Регистрация</h1>
       <div class="shadow bg-white p-4 border rounded">
         <div class="alert alert-success" v-if="isLoggedIn">
-          Вы успешно зарегистрировались! <router-link :to="{ name: 'Index' }">Перейти на главную</router-link>
+          Вы успешно зарегистрировались!
+          <router-link :to="{ name: 'Index' }">Перейти на главную</router-link>
         </div>
         <form @submit.prevent="onSubmit" v-else>
           <div class="form-group">
@@ -47,6 +48,9 @@
               <div v-for="error in errors.password2" class="invalid-feedback">{{ error }}</div>
             </template>
           </div>
+          <template v-if="errors.non_field_errors">
+            <div v-for="error in errors.non_field_errors" class="invalid-feedback">{{ error }}</div>
+          </template>
           <button class="btn btn-primary">Зарегистрироваться</button>
         </form>
       </div>
@@ -55,35 +59,35 @@
 </template>
 
 <script>
-  import {HTTP} from '../api/common';
-  import {mapGetters} from 'vuex'
+  import { HTTP } from '../api/common'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'Registration',
-    data() {
+    data () {
       return {
         form: {
           email: '',
           first_name: '',
           last_name: '',
           password1: '',
-          password2: ''
+          password2: '',
         },
       }
     },
     computed: mapGetters('auth', ['isLoggedIn', 'errors']),
 
     methods: {
-      onSubmit() {
-        this.$store.dispatch("auth/registration", this.form)
-      }
+      onSubmit () {
+        this.$store.dispatch('auth/registration', this.form)
+      },
     },
-    created() {
+    created () {
       if (this.isLoggedIn) {
-        this.$router.push("/")
+        this.$router.push('/')
       }
       this.$store.dispatch('auth/emptyErrors')
-    }
+    },
   }
 </script>
 
