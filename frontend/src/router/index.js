@@ -7,6 +7,7 @@ import Routes from '@/components/Routes'
 import Login from '@/components/Login'
 import Registration from '@/components/Registration'
 import Traininglog from '@/components/Traininglog'
+import Profile from '@/components/Profile'
 
 Vue.use(Router)
 
@@ -74,10 +75,17 @@ export default new Router({
       component: Registration,
     },
     {
-      path: '/traininglog/',
-      name: 'Traininglog',
-      component: Traininglog,
+      path: '/profile/',
+      name: 'Profile',
+      component: Profile,
+      meta: { auth: true },
+      children: [
+        {
+          path: 'edit',
+          name: 'ProfileEdit',
+          component: Profile,
+        },
+      ]
     },
-
   ],
 })

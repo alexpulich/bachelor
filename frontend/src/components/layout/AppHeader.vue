@@ -6,7 +6,8 @@
       <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
           <b-nav-item :to="{ name: 'Index' }">Скалодромы</b-nav-item>
-          <b-nav-item :to="{ name: 'Routes' }">Трассы</b-nav-item>
+          <!--<b-nav-item :to="{ name: 'Routes' }">Трассы</b-nav-item>-->
+          <b-nav-item v-if="isLoggedIn" :to="{ name: 'Profile' }">Профиль</b-nav-item>
           <b-nav-item :to="{ name: 'Login' }" v-if="!isLoggedIn">Войти</b-nav-item>
           <b-nav-item @click="logout" v-else>Выйти</b-nav-item>
         </b-navbar-nav>
@@ -42,4 +43,21 @@
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.85);
   }
 
+  .group {
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+  height: 150px;
+  margin: 0 20px;
+  overflow: hidden;
+  width: 150px;
+}
+
+.group > div {
+  background-color: #333;
+  background-position: 50% 50%;
+  background-size: cover;
+  float: left;
+  height: 100%;
+  width: 50%;
+}
 </style>
