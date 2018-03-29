@@ -22,7 +22,7 @@ class ShortUserSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     """ User profile serializer"""
-    id = serializers.IntegerField(source='pk', read_only=True)
+    id = serializers.ReadOnlyField(source='pk')
     user = serializers.ReadOnlyField(source='user.id')
     first_name = serializers.CharField(source='user.first_name')
     last_name = serializers.CharField(source='user.last_name')
@@ -37,13 +37,17 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         # retrieve the User
+        from pprint import pprint
+        pprint(validated_data)
         user_data = validated_data.pop('user', None)
-        for attr, value in user_data.items():
-            setattr(instance.user, attr, value)
+        if user_data:
+            for attr, value in user_data.items():
+                setattr(instance.user, attr, value)
 
         # retrieve Profile
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
+        if validated_data:
+            for attr, value in validated_data.items():
+                setattr(instance, attr, value)
         instance.user.save()
         instance.save()
         return instance
