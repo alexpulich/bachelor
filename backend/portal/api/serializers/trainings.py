@@ -6,7 +6,7 @@ from portal import models
 class TrainingDayRouteSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.TrainingDayRoute
-        fields = ('training_day', 'route', 'comments')
+        fields = ('id', 'training_day', 'route', 'attempts', 'result')
 
 
 class TrainingDaySerializer(serializers.ModelSerializer):

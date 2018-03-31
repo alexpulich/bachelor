@@ -152,7 +152,7 @@ class TrainingDayRoute(TimeStampedModel):
     )
     route = models.ForeignKey(Route, on_delete=models.CASCADE)
     attempts = models.SmallIntegerField()
-    result = models.SmallIntegerField()
+    result = models.TextField()
 
     def __str__(self):
         return str(self.route)

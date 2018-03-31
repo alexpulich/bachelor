@@ -48,6 +48,13 @@ class UserViewSet(viewsets.ModelViewSet):
         routes_json = routes_serializers.RouteSerializer(routes, many=True)
         return Response(routes_json.data)
 
+    @detail_route(methods=['get'], )
+    def trainingdays(self, request, pk=None):
+        user = self.get_object()
+        trainingdays = models.TrainingDay.objects.filter(user=user)
+        trainingdays_json = trainings_serializers.TrainingDaySerializer(trainingdays, many=True)
+        return Response(trainingdays_json.data)
+
 
 class ClimbingWallViewSet(viewsets.ModelViewSet):
     """
@@ -100,6 +107,13 @@ class RouteViewSet(viewsets.ModelViewSet):
         routes = models.Route.objects.filter(active=True).order_by('-rank')
         routes_json = routes_serializers.RouteRatingSerializer(routes, many=True, context={'request': request})
         return Response(routes_json.data)
+
+    @list_route(methods=['get'], )
+    def short(self, request):
+        routes = models.Route.objects.filter(active=True)
+        routes_json = routes_serializers.RouteShortSerializer(routes, many=True, context={'request': request})
+        return Response(routes_json.data)
+
 
 
 class RoutePictureViewSet(viewsets.ModelViewSet):
