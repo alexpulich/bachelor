@@ -15,6 +15,7 @@ from portal.api.serializers import climbingwalls as climbingwalls_serializers
 from portal.api.serializers import routes as routes_serializers
 from portal.api.serializers import trainings as trainings_serializers
 from portal.api.serializers import users as users_serializers
+from portal.api.serializers import competitions as competitions_serializers
 
 
 # class LoginViewCustom(LoginView):
@@ -151,3 +152,18 @@ class TrainingDayRoutesViewSet(viewsets.ModelViewSet):
 class ClimbingKindViewSet(viewsets.ModelViewSet):
     queryset = models.ClimbingKind.objects.all()
     serializer_class = climbingwalls_serializers.ClimbingKindSerializer
+
+
+class CompetitionViewSet(viewsets.ModelViewSet):
+    queryset = models.Competition.objects.all()
+    serializer_class = competitions_serializers.CompetitionSerializer
+
+
+class CompetitionParticipantViewSet(viewsets.ModelViewSet):
+    queryset = models.CompetitionParticipant.objects.all()
+    serializer_class = competitions_serializers.CompetitionParticipantSerializer
+
+
+class CompetitionResultViewSet(viewsets.ModelViewSet):
+    queryset = models.CompetitionResult.objects.all()
+    serializer_class = competitions_serializers.CompetitionResultSerializer
