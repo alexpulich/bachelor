@@ -5,6 +5,7 @@ from .models import ClimbingWall, ClimbingKind
 from .models import Route, RoutePicture
 from .models import TrainingDay, TrainingDayRoute
 from .models import Profile
+from .models import Competition, CompetitionResult, CompetitionParticipant
 
 
 class ProfileInline(admin.StackedInline):
@@ -25,3 +26,6 @@ admin.site.register(ClimbingKind)
 admin.site.register(Profile)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+admin.site.register(Competition)
+admin.site.register(CompetitionResult)
+admin.site.register(CompetitionParticipant)
