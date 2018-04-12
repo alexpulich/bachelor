@@ -85,6 +85,15 @@ class ClimbingWallViewSet(viewsets.ModelViewSet):
         json = climbingwalls_serializers.ClimbingWallShortSerializer(queryset, many=True, context={'request': request})
         return Response(json.data)
 
+    @detail_route(methods=['get'], )
+    def competitions(self, request, pk=None):
+        climbingwall = self.get_object()
+        competitions = models.Competition.objects.filter(climbingwall=climbingwall)
+        competitions_json = competitions_serializers.CompetitionSerializer(competitions,
+                                                                           many=True,
+                                                                           context={'request': request})
+        return Response(competitions_json.data)
+
 
 class RouteViewSet(viewsets.ModelViewSet):
     """
