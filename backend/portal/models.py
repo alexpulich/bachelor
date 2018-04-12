@@ -38,6 +38,14 @@ GRADE_CHOICES = (
     )
 
 
+RESULT_CHOICES = (
+    ('T', 'TOP'),
+    ('F', 'FLASH'),
+    ('SG', 'SECOND GO'),
+    ('RP', 'RED POINT'),
+)
+
+
 class TimeStampedModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -166,6 +174,23 @@ class Profile(models.Model):
 
     def __str__(self):
         return ' '.join((self.user.first_name, self.user.last_name))
+
+
+class Competition(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    climbingwall = models.ForeignKey('ClimbingWall', on_delete=models.CASCADE)
+
+
+class CompetitionParticipant(models.Model):
+    competition = models.ForeignKey('Competition', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class CompetitionResult(models.Model):
+    participant = models.ForeignKey('CompetitionParticipant', on_delete=models.CASCADE)
+    route = models.ForeignKey('Route', on_delete=models.CASCADE)
+    result = models.CharField(max_length=2, choices=RESULT_CHOICES)
 
 
 @receiver(post_save, sender=User)
