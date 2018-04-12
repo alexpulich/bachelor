@@ -180,6 +180,7 @@ class Competition(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     climbingwall = models.ForeignKey('ClimbingWall', on_delete=models.CASCADE)
+    date = models.DateTimeField()
 
 
 class CompetitionParticipant(models.Model):
