@@ -10,6 +10,14 @@ class TrainingDayRouteSerializer(serializers.ModelSerializer):
 
 
 class TrainingDaySerializer(serializers.ModelSerializer):
+    # training_routes = TrainingDayRouteSerializer(many=True)
+
+    class Meta:
+        model = models.TrainingDay
+        fields = ('id', 'user', 'start_date', 'end_date', 'comments', 'training_routes')
+
+
+class FullTrainingDaySerializer(serializers.ModelSerializer):
     training_routes = TrainingDayRouteSerializer(many=True)
 
     class Meta:

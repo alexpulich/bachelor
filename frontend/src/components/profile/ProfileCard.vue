@@ -30,6 +30,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .logo {
-    max-height: 200px;
+    max-width: 75%;
   }
 </style>

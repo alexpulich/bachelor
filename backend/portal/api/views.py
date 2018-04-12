@@ -52,7 +52,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def trainingdays(self, request, pk=None):
         user = self.get_object()
         trainingdays = models.TrainingDay.objects.filter(user=user)
-        trainingdays_json = trainings_serializers.TrainingDaySerializer(trainingdays, many=True)
+        trainingdays_json = trainings_serializers.FullTrainingDaySerializer(trainingdays, many=True)
         return Response(trainingdays_json.data)
 
 

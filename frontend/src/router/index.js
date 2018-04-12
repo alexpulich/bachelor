@@ -6,8 +6,8 @@ import Route from '@/components/Route'
 import Routes from '@/components/Routes'
 import Login from '@/components/Login'
 import Registration from '@/components/Registration'
-import Traininglog from '@/components/Traininglog'
 import Profile from '@/components/Profile'
+
 
 Vue.use(Router)
 
@@ -85,6 +85,10 @@ export default new Router({
           name: 'ProfileEdit',
           component: Profile,
         },
+        { path: 'trainings',
+          name: 'ProfileTrainingAdd',
+          component: Profile
+        }
       ]
     },
   ],

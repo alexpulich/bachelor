@@ -6,6 +6,8 @@ const SET_USERS = 'SET_USERS'
 const SET_USER = 'SET_USER'
 const SET_PROFILE = 'SET_PROFILE'
 const SET_USER_ROUTES = 'SET_USER_ROUTES'
+const SET_TRAININGS = 'SET_TRAININGS'
+const SET_TRAININGS_ROUTES = 'SET_TRAININGS_ROUTES'
 
 const FORM_FAIL = 'FORM_FAIL'
 const FORM_SUCCESS = 'FORM_SUCCESS'
@@ -19,9 +21,11 @@ const state = {
   users: {},
   profiles: {},
   userRoutes: {},
+  trainings: {},
+  trainingsRoutes: {},
 
   errors: [],
-  status: NONE_STATUS
+  status: NONE_STATUS,
 }
 
 const getters = {
@@ -35,6 +39,33 @@ const getters = {
   userRoutes: (state) => (id) => {
     return state.userRoutes[id]
   },
+  userTrainings: (state) => (id) => {
+    return state.trainings[id]
+  },
+  userTrainingsCalendar: (state) => (id) => {
+    let calendar = []
+    state.trainings[id].forEach(function (item, i, index) {
+      let date = new Date(item.start_date)
+      let dateStr = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' +
+        date.getDate()
+      calendar.push({
+        date: dateStr,
+        title: 'title',
+        index: i,
+      })
+    })
+    // calendar = state.trainings[id].reduce(
+    //   (acc, day) => {
+    //     let date = new Date(day.start_date)
+    //     let dateStr = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' +
+    //       date.getDate()
+    //     calendar.push({date: dateStr, title: 'hey'})
+    //     return acc
+    //   }, {},
+    // )
+    return calendar
+  },
+
   errors: state => state.errors,
   status: state => state.status,
 }
@@ -65,6 +96,10 @@ const mutations = {
       Vue.set(state.userRoutes, routes[0].author, tmp_routes)
     }
   },
+  [SET_TRAININGS] (state, {trainings}) {
+    if (trainings[0])
+      Vue.set(state.trainings, trainings[0].user, trainings)
+  },
 
   [FORM_FAIL] (state, {errors}) {
     state.errors = errors
@@ -86,7 +121,7 @@ const actions = {
       commit(SET_USERS, {users})
     })
   },
-  getUser ({commit, state}, id) {
+  getUser ({commit}, id) {
     Users.item(id).then(user => {
       commit(SET_USER, {user})
       Users.profile(user.profile).then(profile => {
@@ -133,6 +168,36 @@ const actions = {
         }
       })
     }
+  },
+  getTrainings ({commit}, id) {
+    Users.trainings(id).then(trainings => {
+      commit(SET_TRAININGS, {trainings})
+    })
+  },
+  setTraining ({commit, dispatch}, training) {
+    let routes = training['training_routes']
+    training['training_routes'] = []
+    Users.createTraining(training).then(response => {
+      if (response.errors) {
+        commit(FORM_FAIL, {'errors': response.errors})
+      } else {
+        if (routes.length) {
+          routes.forEach(function (item, i, arr) {
+            item['training_day'] = response.id
+            Users.setTrainingRoute(item).then(routes_response => {
+              if (routes_response.errors) {
+                commit(FORM_FAIL, {'errors': routes_response.errors})
+              } else {
+                commit(FORM_SUCCESS)
+              }
+            })
+          })
+        } else {
+          commit(FORM_SUCCESS)
+        }
+      }
+    })
+    dispatch('getTrainings', training.user)
   },
 }
 

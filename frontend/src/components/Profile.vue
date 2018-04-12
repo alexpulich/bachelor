@@ -7,7 +7,16 @@
       <profile-edit v-if="this.$route.name == 'ProfileEdit'"
                          :user="user">
       </profile-edit>
-      <profile-description :user="user" :routes="userRoutes" :kinds="kinds" v-else>
+      <training-edit v-else-if="this.$route.name == 'ProfileTrainingAdd'"
+                         :user="user"
+                          :routesShort="routesShort">
+      </training-edit>
+      <profile-description :user="user"
+                           :routes="userRoutes"
+                           :kinds="kinds"
+                           :userTrainings="userTrainings"
+                           :routesShort="routesShort"
+                           v-else>
       </profile-description>
     </b-col>
   </b-row>
@@ -19,10 +28,12 @@
   import ProfileEdit from './profile/ProfileEdit.vue'
 //  import ClimbingwallEditPics from './climbingwalls/ClimbingwallEditPics.vue'
   import {mapGetters} from 'vuex'
+  import TrainingEdit from './profile/TrainingEdit.vue'
 
   export default {
     name: 'Profile',
-    components: { ProfileCard, ProfileDescription, ProfileEdit},
+    components: { TrainingEdit,
+      ProfileCard, ProfileDescription, ProfileEdit},
     computed: {
       user() {
           return this.$store.getters['users/profile'](this.$store.getters['auth/userId'])
@@ -30,11 +41,17 @@
       userRoutes() {
         return this.$store.getters['users/userRoutes'](this.$store.getters['auth/userId'])
       },
-      ...mapGetters('climbingwalls', ['kinds'])
+      userTrainings() {
+        return this.$store.getters['users/userTrainings'](this.$store.getters['auth/userId'])
+      },
+      ...mapGetters('climbingwalls', ['kinds']),
+      ...mapGetters('routes', ['routesShort'])
     },
     created() {
       this.$store.dispatch('climbingwalls/getKinds')
       this.$store.dispatch('users/getUser', this.$store.getters['auth/userId'])
+      this.$store.dispatch('users/getTrainings', this.$store.getters['auth/userId'])
+      this.$store.dispatch('routes/getRoutesShort')
     }
   }
 </script>

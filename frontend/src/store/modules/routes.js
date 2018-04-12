@@ -3,6 +3,7 @@ import { Routes } from '../../api/routes'
 import Vue from 'vue'
 
 const SET_ROUTE = 'SET_ROUTE'
+const SET_ROUTES_SHORT = 'SET_ROUTES_SHORT'
 const SET_ROUTE_PICTURES = 'SET_ROUTE_PICTURES'
 
 const FORM_FAIL = 'FORM_FAIL'
@@ -16,6 +17,7 @@ const NONE_STATUS = 'none'
 const state = {
   routes: {},
   pictures: {},
+  routes_short: {},
 
   errors: [],
   status: NONE_STATUS,
@@ -30,6 +32,7 @@ const getters = {
   },
   errors: state => state.errors,
   status: state => state.status,
+  routesShort: (state) => state.routes_short
 }
 
 const mutations = {
@@ -38,6 +41,14 @@ const mutations = {
   },
   [SET_ROUTE_PICTURES] (state, {pictures}) {
     Vue.set(state.pictures, pictures[0].route, pictures)
+  },
+  [SET_ROUTES_SHORT] (state, {routes}) {
+    state.routes_short = routes.reduce(
+      (acc, route) => {
+        acc[route.id] = route
+        return acc
+      }, {},
+    )
   },
 
   [FORM_FAIL] (state, {errors}) {
@@ -98,41 +109,11 @@ const actions = {
       }
     })
   },
-
-  /*
-  getClimbingwalls({commit}) {
-    Climbingwalls.list()
-      .then(climbingwalls => {
-        commit(SET_CLIMBINGWALLS, {climbingwalls});
-      })
-  },
-  getClimbingwallsShort({commit}) {
-    Climbingwalls.short()
-      .then(climbingwalls => {
-        commit(SET_CLIMBINGWALLS_SHORT, {climbingwalls});
-      })
-  },
-  getClimbingwallsRoutes({dispatch, commit}, id) {
-    commit(SET_CURRENT_CLIMBINGWALL, {id});
-    Climbingwalls.routes(id).then((routes) => {
-      commit(SET_CLIMBINGWALLS_ROUTES, {routes})
-      routes.forEach(function(item, i, arr) {
-          dispatch('getUser', item.author)
-        })
+  getRoutesShort({commit}) {
+    Routes.short().then(routes => {
+      commit(SET_ROUTES_SHORT, {routes})
     })
-    ;
-  },
-  setClimbingwall({commit}, climbingwall) {
-    Climbingwalls.set(climbingwall)
-      .then(response => {})
-  },
-  addRoute({commit}, route) {
-    Routes.add(route)
-      .then(response => {
-        commit(ADD_ROUTE, {route})
-      })
   }
-  */
 }
 
 export default {

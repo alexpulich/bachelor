@@ -2,6 +2,7 @@ import { HTTP } from './common'
 
 const ENDPOINT = '/routes/'
 const PICTURES_ENDPOINT = '/routepictures/'
+const SHORT_ENDPOINT = 'short/'
 
 export const Routes = {
   set(route) {
@@ -16,6 +17,12 @@ export const Routes = {
 
   list () {
     return HTTP.get(ENDPOINT).then(response => {
+      return response.data
+    })
+  },
+
+  short () {
+    return HTTP.get(ENDPOINT + SHORT_ENDPOINT).then(response => {
       return response.data
     })
   },
