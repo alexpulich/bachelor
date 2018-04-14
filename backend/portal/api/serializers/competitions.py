@@ -11,11 +11,11 @@ class CompetitionSerializer(serializers.ModelSerializer):
 
 class CompetitionParticipantSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Competition
+        model = models.CompetitionParticipant
         fields = ('id', 'competition', 'user')
 
 
 class CompetitionResultSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Competition
+        model = models.CompetitionResult
         fields = ('id', 'participant', 'route', 'result')

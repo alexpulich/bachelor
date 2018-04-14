@@ -2,11 +2,12 @@ from rest_framework import serializers
 
 from portal import models
 from .utils import Base64ImageField
+from .competitions import CompetitionParticipantSerializer
+from portal.models import CompetitionParticipant
 
 
 class UserSerializer(serializers.ModelSerializer):
     """User serializer"""
-
     class Meta:
         model = models.User
         fields = ('id', 'email', 'first_name', 'last_name', 'profile')
@@ -30,15 +31,15 @@ class ProfileSerializer(serializers.ModelSerializer):
     photo = Base64ImageField(
         max_length=None, use_url=True,
     )
+    # TODO
+    competitions = serializers.ListField(source='get_competitions', read_only=True)
 
     class Meta:
         model = models.Profile
-        fields = ('id', 'user', 'first_name', 'last_name', 'email', 'photo', 'networks', 'description')
+        fields = ('id', 'user', 'first_name', 'last_name', 'email', 'photo', 'networks', 'description', 'competitions')
 
     def update(self, instance, validated_data):
         # retrieve the User
-        from pprint import pprint
-        pprint(validated_data)
         user_data = validated_data.pop('user', None)
         if user_data:
             for attr, value in user_data.items():

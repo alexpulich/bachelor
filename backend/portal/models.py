@@ -175,6 +175,10 @@ class Profile(models.Model):
     def __str__(self):
         return ' '.join((self.user.first_name, self.user.last_name))
 
+    def get_competitions(self):
+        for participance in self.user.participation.all():
+            yield participance.competition.id
+
 
 class Competition(models.Model):
     name = models.CharField(max_length=255)
@@ -182,10 +186,16 @@ class Competition(models.Model):
     climbingwall = models.ForeignKey('ClimbingWall', on_delete=models.CASCADE)
     date = models.DateTimeField()
 
+    def __str__(self):
+        return self.name
+
 
 class CompetitionParticipant(models.Model):
     competition = models.ForeignKey('Competition', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='participation')
+
+    def __str__(self):
+        return '%s %s (%s)' % (self.user.first_name, self.user.last_name, self.competition.name)
 
 
 class CompetitionResult(models.Model):
@@ -193,6 +203,11 @@ class CompetitionResult(models.Model):
     route = models.ForeignKey('Route', on_delete=models.CASCADE)
     result = models.CharField(max_length=2, choices=RESULT_CHOICES)
 
+    def __str__(self):
+        return '%s %s - %s - %d' % (self.participant.user.first_name,
+                                self.participant.user.last_name,
+                                    self.route.name,
+                                    self.result)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

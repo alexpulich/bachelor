@@ -5,12 +5,12 @@ from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import detail_route, list_route
 
-from rest_auth.views import LoginView
+# from rest_auth.views import LoginView
 from rest_auth.registration.views import RegisterView
 
 from portal import models
 
-from portal.api.serializers import auth as auth_serializers
+# from portal.api.serializers import auth as auth_serializers
 from portal.api.serializers import climbingwalls as climbingwalls_serializers
 from portal.api.serializers import routes as routes_serializers
 from portal.api.serializers import trainings as trainings_serializers
