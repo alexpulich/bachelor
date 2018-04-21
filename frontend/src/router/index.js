@@ -91,5 +91,18 @@ export default new Router({
         }
       ]
     },
+    {
+      path: '/competition/:id',
+      name: 'Competition',
+      component: Climbingwall,
+      children: [
+        {
+          path: 'addresults',
+          name: 'AddResults',
+          component: Climbingwall,
+          meta: { auth: true }
+        }
+      ]
+    }
   ],
 })

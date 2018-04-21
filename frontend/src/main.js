@@ -28,6 +28,9 @@ Vue.component('gallery', VueGallery)
 Vue.use(VueCarousel);
 Vue.use(Datetime)
 
+const VueLuxon = require('vue-luxon');
+Vue.use(VueLuxon);
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

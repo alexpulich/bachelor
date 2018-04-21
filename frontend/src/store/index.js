@@ -4,6 +4,7 @@ import climbingwalls from './modules/climbingwalls'
 import auth from './modules/auth'
 import users from './modules/users'
 import routes from './modules/routes'
+import competitions from './modules/competitions'
 
 Vue.use(Vuex)
 
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     climbingwalls,
     auth,
     users,
-    routes
+    routes,
+    competitions
   },
 })

@@ -10,6 +10,7 @@ const SET_CLIMBINGWALLS_SHORT = 'SET_CLIMBINGWALLS_SHORT'
 const SET_CLIMBINGWALLS_ROUTES = 'SET_CLIMBINGWALLS_ROUTES'
 const SET_CURRENT_CLIMBINGWALL = 'SET_CURRENT_CLIMBINGWALL'
 const SET_CLIMBINGWALL_PICTURES = 'SET_CLIMBINGWALL_PICTURES'
+const SET_CLIMBINGWALL_COMPETITIONS = 'SET_CLIMBINGWALL_COMPETITIONS'
 
 const FORM_FAIL = 'FORM_FAIL'
 const FORM_SUCCESS = 'FORM_SUCCESS'
@@ -27,6 +28,7 @@ const state = {
   climbingwalls: {},
   climbingwalls_short: {},
   climbingwalls_routes: {},
+  competitions: {},
   current_climbingwall: 0,
   pictures: {},
 
@@ -47,6 +49,25 @@ const getters = {
   },
   pictures: state => (id) => {
     return state.pictures[id]
+  },
+  competitions: state => (id) => {
+    return state.competitions[id]
+  },
+  competition_calendar: (state) => (id) => {
+    let calendar = []
+    state.competitions[id].forEach(function (item, i, index) {
+      let date = new Date(item.date)
+      let dateStr = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' +
+        date.getDate()
+      calendar.push({
+        date: dateStr,
+        title: item.name,
+        desc: item.description,
+        index: i,
+        id: item.id
+      })
+    })
+    return calendar;
   },
   kinds: state => state.kinds,
   errors: state => state.errors,
@@ -89,6 +110,10 @@ const mutations = {
   },
   [SET_CURRENT_CLIMBINGWALL] (state, {id}) {
     state.current_climbingwall = id
+  },
+
+  [SET_CLIMBINGWALL_COMPETITIONS] (state, {competitions, id}) {
+    Vue.set(state.competitions, id, competitions);
   },
 
   [ADD_ROUTE] (state, {route}) {
@@ -214,6 +239,11 @@ const actions = {
         commit(FORM_SUCCESS)
         dispatch('getPictures', image.climbingwall)
       }
+    })
+  },
+  getCompetitions ({commit}, id) {
+    Climbingwalls.competitions(id).then(competitions => {
+      commit(SET_CLIMBINGWALL_COMPETITIONS, {competitions, id})
     })
   },
 }

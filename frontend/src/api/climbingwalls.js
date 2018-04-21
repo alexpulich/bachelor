@@ -3,6 +3,7 @@ import { HTTP } from './common'
 const ENDPOINT = '/climbingwalls/';
 const PICTURES_ENDPOINT = '/climbingwallpictures/'
 const SHORT = 'short/';
+const COMPETITIONS = '/competitions/';
 
 export const Climbingwalls = {
   set(climbingwall) {
@@ -41,6 +42,12 @@ export const Climbingwalls = {
 
   pictures(climbingwallId) {
     return HTTP.get(ENDPOINT + climbingwallId + '/pictures/').then(response => {
+      return response.data
+    })
+  },
+
+  competitions(climbingwallId) {
+    return HTTP.get(ENDPOINT + climbingwallId + COMPETITIONS).then(response => {
       return response.data
     })
   },

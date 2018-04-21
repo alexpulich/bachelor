@@ -19,3 +19,11 @@ class CompetitionResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CompetitionResult
         fields = ('id', 'participant', 'route', 'result')
+
+
+class CompetitionResultsListSerializer(serializers.ModelSerializer):
+    results = serializers.ListField(source='get_results')
+
+    class Meta:
+        model = models.Competition
+        fields = ('id', 'results')

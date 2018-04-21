@@ -1,6 +1,8 @@
 import { Users } from '../../api/users'
+import { Competitions } from '../../api/competitions'
 
 import Vue from 'vue'
+import { Climbingwalls } from '../../api/climbingwalls'
 
 const SET_USERS = 'SET_USERS'
 const SET_USER = 'SET_USER'
@@ -54,16 +56,28 @@ const getters = {
         index: i,
       })
     })
-    // calendar = state.trainings[id].reduce(
-    //   (acc, day) => {
-    //     let date = new Date(day.start_date)
-    //     let dateStr = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' +
-    //       date.getDate()
-    //     calendar.push({date: dateStr, title: 'hey'})
-    //     return acc
-    //   }, {},
-    // )
     return calendar
+  },
+  canParticipate: (state) => (user_id, competition_id) => {
+    let res = true
+    if (state.profiles[user_id].participation.length) {
+      state.profiles[user_id].participation.forEach(function (item, i, arr) {
+        if (item.competition === competition_id) {
+          res = false
+        }
+      })
+    }
+    return res
+  },
+  getParticipationId: (state) => (user_id, competition_id) => {
+    let res = 0
+    if (state.profiles[user_id].participation.length) {
+      state.profiles[user_id].participation.forEach(function (item, i, arr) {
+        if (item.competition === competition_id)
+          res = item.id
+      })
+    }
+    return res
   },
 
   errors: state => state.errors,
@@ -198,6 +212,29 @@ const actions = {
       }
     })
     dispatch('getTrainings', training.user)
+  },
+
+  participate ({commit, rootState}, competition_id) {
+    let participant = {
+      user: rootState.auth.userId,
+      competition: competition_id,
+    }
+    Competitions.participate(participant).then(response => {
+      console.log(response)
+    })
+  },
+  dismiss ({commit, rootState, getters}, competition_id) {
+    Competitions.dismiss(
+      getters['getParticipationId'](rootState.auth.userId, competition_id))
+  },
+  addResults ({commit}, results) {
+    Competitions.addResults(results).then(response => {
+      if (response.errors) {
+        commit(FORM_FAIL, {'errors': response.errors})
+      } else {
+        commit(FORM_SUCCESS)
+      }
+    })
   },
 }
 

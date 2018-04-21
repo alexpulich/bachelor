@@ -167,6 +167,12 @@ class CompetitionViewSet(viewsets.ModelViewSet):
     queryset = models.Competition.objects.all()
     serializer_class = competitions_serializers.CompetitionSerializer
 
+    @detail_route(methods=['get'], )
+    def results(self, request, pk=None):
+        competition = self.get_object()  # retrieve an object by pk provided
+        results = competition.get_results()
+        return Response(results)
+
 
 class CompetitionParticipantViewSet(viewsets.ModelViewSet):
     queryset = models.CompetitionParticipant.objects.all()

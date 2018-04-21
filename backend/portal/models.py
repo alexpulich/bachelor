@@ -39,11 +39,33 @@ GRADE_CHOICES = (
 
 
 RESULT_CHOICES = (
-    ('T', 'TOP'),
     ('F', 'FLASH'),
     ('SG', 'SECOND GO'),
     ('RP', 'RED POINT'),
 )
+
+
+GRADES = ('5a','5a+','5b','5b+','5c','5c+',
+          '6a','6a+','6b','6b+','6c','6c+',
+          '7a','7a+','7b','7b+','7c','7c+',
+          '8a','8a+','8b','8b+','8c','8c+',
+          '9a','9a+','9b','9b+','9c','9c+'
+          )
+
+RESULT_COST = {
+    'RP': 1.0,
+    'SG': 1.1,
+    'F' : 1.2,
+}
+
+def get_grade_cost(grade):
+    try:
+        index = GRADES.index(grade)
+        cost = 400 + 50 * index
+    except ValueError:
+        cost = 0
+
+    return cost
 
 
 class TimeStampedModel(models.Model):
@@ -189,9 +211,28 @@ class Competition(models.Model):
     def __str__(self):
         return self.name
 
+    def get_results(self):
+        results = []
+        for participant in self.participants.all():
+            points = 0
+            routes_cnt = 0
+            for result in participant.results.all():
+                result_cost = RESULT_COST.get(result.result, 1.0)
+                cost = get_grade_cost(result.route.grade) * result_cost
+                points += cost
+                routes_cnt += 1
+            results.append({
+                'user': participant.user.id,
+                'first_name': participant.user.first_name,
+                'last_name': participant.user.last_name,
+                'points': round(points),
+                'routes': routes_cnt
+            })
+        return sorted(results, key=lambda t: t['points'], reverse=True)
+
 
 class CompetitionParticipant(models.Model):
-    competition = models.ForeignKey('Competition', on_delete=models.CASCADE)
+    competition = models.ForeignKey('Competition', on_delete=models.CASCADE, related_name='participants')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='participation')
 
     def __str__(self):
@@ -199,15 +240,19 @@ class CompetitionParticipant(models.Model):
 
 
 class CompetitionResult(models.Model):
-    participant = models.ForeignKey('CompetitionParticipant', on_delete=models.CASCADE)
+    participant = models.ForeignKey('CompetitionParticipant', on_delete=models.CASCADE, related_name='results')
     route = models.ForeignKey('Route', on_delete=models.CASCADE)
     result = models.CharField(max_length=2, choices=RESULT_CHOICES)
 
+    class Meta:
+        unique_together = ('participant', 'route')
+
     def __str__(self):
-        return '%s %s - %s - %d' % (self.participant.user.first_name,
+        return '%s %s - %s - %s' % (self.participant.user.first_name,
                                 self.participant.user.last_name,
                                     self.route.name,
                                     self.result)
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

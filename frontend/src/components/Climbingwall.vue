@@ -13,11 +13,14 @@
                              :climbingwall="climbingwall"
                               :pictures="pictures">
       </climbingwall-edit-pics>
+      <competition v-else-if="this.$route.name == 'Competition'"></competition>
+      <add-results v-else-if="this.$route.name == 'AddResults'" :climbingwall="climbingwall"></add-results>
       <climbingwall-description v-else
                                 :climbingwall="climbingwall"
                                 :routes="routes"
                                 :pictures="pictures"
-                                :kinds="kinds">
+                                :kinds="kinds"
+                                :competitions="competitions">
       </climbingwall-description>
     </b-col>
   </b-row>
@@ -28,11 +31,13 @@
   import ClimbingwallDescription from './climbingwalls/ClimbingwallDescription.vue'
   import ClimbingwallEdit from './climbingwalls/ClimbingwallEdit.vue'
   import ClimbingwallEditPics from './climbingwalls/ClimbingwallEditPics.vue'
+  import Competition from './climbingwalls/Competition.vue'
+  import AddResults from './climbingwalls/AddResults.vue'
   import {mapGetters} from 'vuex'
 
   export default {
     name: 'Climbingwall',
-    components: {ClimbingwallCard, ClimbingwallDescription, ClimbingwallEdit, ClimbingwallEditPics},
+    components: {ClimbingwallCard, ClimbingwallDescription, ClimbingwallEdit, ClimbingwallEditPics, Competition, AddResults},
     computed: {
       climbingwall () {
         return this.$store.getters['climbingwalls/climbingwall'](this.$route.params.id)
@@ -43,6 +48,9 @@
       pictures () {
         return this.$store.getters['climbingwalls/pictures'](this.$route.params.id)
       },
+      competitions () {
+        return this.$store.getters['climbingwalls/competitions'](this.$route.params.id)
+      },
       ...mapGetters('climbingwalls', ['kinds'])
     },
     created() {
@@ -50,6 +58,7 @@
       this.$store.dispatch('climbingwalls/getClimbingwall', this.$route.params.id)
       this.$store.dispatch('climbingwalls/getClimbingwallsRoutes', this.$route.params.id)
       this.$store.dispatch('climbingwalls/getPictures', this.$route.params.id)
+      this.$store.dispatch('climbingwalls/getCompetitions', this.$route.params.id)
     }
   }
 </script>

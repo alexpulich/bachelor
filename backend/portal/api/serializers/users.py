@@ -31,12 +31,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     photo = Base64ImageField(
         max_length=None, use_url=True,
     )
-    # TODO
-    competitions = serializers.ListField(source='get_competitions', read_only=True)
+    participation = CompetitionParticipantSerializer(source='user.participation', many=True)
 
     class Meta:
         model = models.Profile
-        fields = ('id', 'user', 'first_name', 'last_name', 'email', 'photo', 'networks', 'description', 'competitions')
+        fields = ('id', 'user', 'first_name', 'last_name', 'email', 'photo', 'networks', 'description', 'participation')
 
     def update(self, instance, validated_data):
         # retrieve the User
